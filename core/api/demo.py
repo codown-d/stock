@@ -1,8 +1,7 @@
 # coding:utf-8
 
 from . import api
-from core import db, models
-# import logging
+from core import models
 from flask import current_app, request
 
 

@@ -5,9 +5,7 @@ from config import config_map
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 from flask_wtf import CSRFProtect
-from flask_migrate import Migrate
 
-import redis
 import logging
 from logging.handlers import RotatingFileHandler
 from core.utils.commons import ReConverter
@@ -15,9 +13,10 @@ from core.utils.commons import ReConverter
 
 # 数据库
 db = SQLAlchemy()
-migrate = Migrate()
+
 # 创建redis连接对象
 redis_store = None
+
 
 # 配置日志信息
 # 设置日志的记录等级
@@ -36,7 +35,7 @@ logging.getLogger().addHandler(file_log_handler)
 def create_app(config_name):
     """
     创建flask的应用对象
-    :param config_name: str  配置模式的模式的名字 （"develop",  "product"）
+    :param config_name: str  配置模式的模式的名字 （"dev",  "prod"）
     :return:
     """
     app = Flask(__name__)
@@ -47,7 +46,6 @@ def create_app(config_name):
 
     # 使用app初始化db
     db.init_app(app)
-    migrate.init_app(app, db)
 
     # # 初始化redis工具
     # global redis_store
@@ -62,6 +60,11 @@ def create_app(config_name):
     # 为flask添加自定义的转换器
     app.url_map.converters["re"] = ReConverter
 
+    # 为flask添加自定义命令
+    from core.command import database_cmd
+    # app.cli.add_command(database)
+    app.register_blueprint(database_cmd)
+    
     # 注册蓝图
     from core import api
     app.register_blueprint(api.api, url_prefix="/api/v1.0")

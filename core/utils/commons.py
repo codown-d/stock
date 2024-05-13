@@ -2,7 +2,6 @@
 
 from werkzeug.routing import BaseConverter
 from flask import session, jsonify, g
-from core.utils.response_code import RET
 import functools
 
 

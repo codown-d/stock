@@ -2240,3 +2240,108 @@ WARNING _internal.py:97  * Debugger is active!
 INFO _internal.py:97  * Debugger PIN: 115-166-949
 ERROR __init__.py:113 Error: Directory migrations already exists and is not empty
 ERROR __init__.py:113 Error: Directory migrations already exists and is not empty
+INFO _internal.py:97 [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO _internal.py:97 [33mPress CTRL+C to quit[0m
+INFO _internal.py:97  * Restarting with stat
+WARNING _internal.py:97  * Debugger is active!
+INFO _internal.py:97  * Debugger PIN: 212-459-402
+INFO _internal.py:97 [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO _internal.py:97 [33mPress CTRL+C to quit[0m
+ERROR __init__.py:113 Error: Directory migrations already exists and is not empty
+ERROR __init__.py:113 Error: Directory migrations already exists and is not empty
+INFO _internal.py:97 [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO _internal.py:97 [33mPress CTRL+C to quit[0m
+INFO _internal.py:97  * Restarting with stat
+WARNING _internal.py:97  * Debugger is active!
+INFO _internal.py:97  * Debugger PIN: 212-459-402
+INFO _internal.py:97 [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO _internal.py:97 [33mPress CTRL+C to quit[0m
+INFO _internal.py:97  * Restarting with stat
+WARNING _internal.py:97  * Debugger is active!
+INFO _internal.py:97  * Debugger PIN: 212-459-402
+INFO _internal.py:97  * Detected change in 'd:\\workspace\\stock\\core\\utils\\database.py', reloading
+INFO _internal.py:97  * Restarting with stat
+INFO _internal.py:97 [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO _internal.py:97 [33mPress CTRL+C to quit[0m
+INFO _internal.py:97  * Restarting with stat
+WARNING _internal.py:97  * Debugger is active!
+INFO _internal.py:97  * Debugger PIN: 212-459-402
+INFO _internal.py:97  * Detected change in 'd:\\workspace\\stock\\core\\utils\\database.py', reloading
+INFO _internal.py:97  * Restarting with stat
+WARNING _internal.py:97  * Debugger is active!
+INFO _internal.py:97  * Debugger PIN: 212-459-402
+INFO _internal.py:97  * Detected change in 'd:\\workspace\\stock\\app.py', reloading
+INFO _internal.py:97  * Restarting with stat
+WARNING _internal.py:97  * Debugger is active!
+INFO _internal.py:97  * Debugger PIN: 212-459-402
+INFO _internal.py:97  * Detected change in 'd:\\workspace\\stock\\core\\__init__.py', reloading
+INFO _internal.py:97  * Restarting with stat
+WARNING _internal.py:97  * Debugger is active!
+INFO _internal.py:97  * Debugger PIN: 212-459-402
+INFO _internal.py:97  * Detected change in 'd:\\workspace\\stock\\core\\utils\\database.py', reloading
+INFO _internal.py:97  * Restarting with stat
+WARNING _internal.py:97  * Debugger is active!
+INFO _internal.py:97  * Debugger PIN: 212-459-402
+INFO _internal.py:97  * Detected change in 'd:\\workspace\\stock\\core\\utils\\database.py', reloading
+INFO _internal.py:97  * Restarting with stat
+WARNING _internal.py:97  * Debugger is active!
+INFO _internal.py:97  * Debugger PIN: 212-459-402
+INFO _internal.py:97  * Detected change in 'd:\\workspace\\stock\\core\\__init__.py', reloading
+INFO _internal.py:97  * Restarting with stat
+INFO _internal.py:97 [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO _internal.py:97 [33mPress CTRL+C to quit[0m
+INFO _internal.py:97  * Restarting with stat
+WARNING _internal.py:97  * Debugger is active!
+INFO _internal.py:97  * Debugger PIN: 212-459-402
+INFO _internal.py:97  * Detected change in 'd:\\workspace\\stock\\core\\command.py', reloading
+INFO _internal.py:97  * Restarting with stat
+WARNING _internal.py:97  * Debugger is active!
+INFO _internal.py:97  * Debugger PIN: 212-459-402
+INFO _internal.py:97  * Detected change in 'd:\\workspace\\stock\\core\\command.py', reloading
+INFO _internal.py:97  * Restarting with stat
+WARNING _internal.py:97  * Debugger is active!
+INFO _internal.py:97  * Debugger PIN: 212-459-402
+INFO _internal.py:97  * Detected change in 'd:\\workspace\\stock\\core\\utils\\database.py', reloading
+INFO _internal.py:97  * Restarting with stat
+WARNING _internal.py:97  * Debugger is active!
+INFO _internal.py:97  * Debugger PIN: 212-459-402
+INFO _internal.py:97  * Detected change in 'd:\\workspace\\stock\\core\\utils\\database.py', reloading
+INFO _internal.py:97  * Restarting with stat
+WARNING _internal.py:97  * Debugger is active!
+INFO _internal.py:97  * Debugger PIN: 212-459-402
+INFO _internal.py:97  * Detected change in 'd:\\workspace\\stock\\core\\command.py', reloading
+INFO _internal.py:97  * Restarting with stat
+WARNING _internal.py:97  * Debugger is active!
+INFO _internal.py:97  * Debugger PIN: 212-459-402
+INFO _internal.py:97  * Detected change in 'd:\\workspace\\stock\\core\\command.py', reloading
+INFO _internal.py:97  * Restarting with stat
+WARNING _internal.py:97  * Debugger is active!
+INFO _internal.py:97  * Debugger PIN: 212-459-402
+INFO _internal.py:97  * Detected change in 'd:\\workspace\\stock\\core\\command.py', reloading
+INFO _internal.py:97  * Restarting with stat
+WARNING _internal.py:97  * Debugger is active!
+INFO _internal.py:97  * Debugger PIN: 212-459-402
+INFO _internal.py:97  * Detected change in 'd:\\workspace\\stock\\core\\command.py', reloading
+INFO _internal.py:97  * Restarting with stat
+WARNING _internal.py:97  * Debugger is active!
+INFO _internal.py:97  * Debugger PIN: 212-459-402
+INFO _internal.py:97  * Detected change in 'd:\\workspace\\stock\\core\\command.py', reloading
+INFO _internal.py:97  * Restarting with stat
+WARNING _internal.py:97  * Debugger is active!
+INFO _internal.py:97  * Debugger PIN: 212-459-402
+INFO _internal.py:97  * Detected change in 'd:\\workspace\\stock\\core\\utils\\database.py', reloading
+INFO _internal.py:97  * Restarting with stat
+WARNING _internal.py:97  * Debugger is active!
+INFO _internal.py:97  * Debugger PIN: 212-459-402
+INFO _internal.py:97  * Detected change in 'd:\\workspace\\stock\\core\\utils\\database.py', reloading
+INFO _internal.py:97  * Restarting with stat
+WARNING _internal.py:97  * Debugger is active!
+INFO _internal.py:97  * Debugger PIN: 212-459-402
+INFO _internal.py:97  * Detected change in 'd:\\workspace\\stock\\core\\utils\\database.py', reloading
+INFO _internal.py:97  * Restarting with stat
