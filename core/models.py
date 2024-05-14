@@ -1,7 +1,11 @@
 # -*- coding:utf-8 -*-
-
-from . import db
-
+import os.path
+import sys
+cpath_current = os.path.dirname(os.path.dirname(__file__))
+cpath = os.path.abspath(os.path.join(cpath_current))
+sys.path.append(cpath)
+print(cpath,__file__,os.path.dirname(__file__))
+from core import  db
 class StockStats(db.Model):
     __tablename__ = "stock_stats"
     id = db.Column(db.Integer, primary_key=True)  # 用户编号

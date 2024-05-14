@@ -1,5 +1,10 @@
 # coding:utf-8
-
+import os.path
+import sys
+cpath_current = os.path.dirname(os.path.dirname(__file__))
+# cpath = os.path.abspath(os.path.join(cpath_current, os.pardir))
+# sys.path.append(cpath)
+log_path = os.path.join(cpath_current, 'log')
 from flask import Flask
 from config import config_map
 from flask_sqlalchemy import SQLAlchemy
@@ -17,12 +22,11 @@ db = SQLAlchemy()
 # 创建redis连接对象
 redis_store = None
 
-
 # 配置日志信息
 # 设置日志的记录等级
 logging.basicConfig(level=logging.INFO)
 # 创建日志记录器，指明日志保存的路径、每个日志文件的最大大小、保存的日志文件个数上限
-file_log_handler = RotatingFileHandler("logs/log", maxBytes=1024*1024*100, backupCount=10)
+file_log_handler = RotatingFileHandler(log_path, maxBytes=1024*1024*100, backupCount=10)
 # 创建日志记录的格式                 日志等级    输入日志信息的文件名 行数    日志信息
 formatter = logging.Formatter('%(levelname)s %(filename)s:%(lineno)d %(message)s')
 # 为刚创建的日志记录器设置日志记录格式
