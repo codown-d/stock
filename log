@@ -5,3 +5,70 @@ ERROR fetch_stocks.py:33 stockfetch.fetch_stocks处理异常：'username' is an inval
 ERROR fetch_stocks.py:33 stockfetch.fetch_stocks处理异常：'username' is an invalid keyword argument for StockStats
 ERROR fetch_stocks.py:33 stockfetch.fetch_stocks处理异常：'username' is an invalid keyword argument for StockStats
 ERROR fetch_stocks.py:33 stockfetch.fetch_stocks处理异常：'username' is an invalid keyword argument for StockStats
+ERROR fetch_stocks.py:33 stockfetch.fetch_stocks处理异常：0
+ERROR fetch_stocks.py:33 stockfetch.fetch_stocks处理异常：'username' is an invalid keyword argument for StockStats
+ERROR fetch_stocks.py:33 stockfetch.fetch_stocks处理异常：'username' is an invalid keyword argument for StockStats
+ERROR fetch_stocks.py:33 stockfetch.fetch_stocks处理异常：'username' is an invalid keyword argument for StockStats
+ERROR fetch_stocks.py:34 stockfetch.fetch_stocks处理异常：'username' is an invalid keyword argument for StockStats
+ERROR fetch_stocks.py:34 stockfetch.fetch_stocks处理异常：'username' is an invalid keyword argument for StockStats
+ERROR fetch_stocks.py:34 stockfetch.fetch_stocks处理异常：'username' is an invalid keyword argument for DFCFStockInfo
+ERROR fetch_stocks.py:34 stockfetch.fetch_stocks处理异常：8
+ERROR fetch_stocks.py:34 stockfetch.fetch_stocks处理异常：'username' is an invalid keyword argument for DFCFStockInfo
+ERROR fetch_stocks.py:34 stockfetch.fetch_stocks处理异常：'username' is an invalid keyword argument for DFCFStockInfo
+ERROR fetch_stocks.py:34 stockfetch.fetch_stocks处理异常：'username' is an invalid keyword argument for DFCFStockInfo
+ERROR fetch_stocks.py:35 stockfetch.fetch_stocks处理异常：'int' object is not iterable
+ERROR fetch_stocks.py:36 stockfetch.fetch_stocks处理异常：'int' object is not iterable
+ERROR fetch_stocks.py:37 stockfetch.fetch_stocks处理异常：'int' object is not iterable
+ERROR fetch_stocks.py:37 stockfetch.fetch_stocks处理异常：'int' object is not iterable
+ERROR fetch_stocks.py:37 stockfetch.fetch_stocks处理异常：'int' object is not iterable
+ERROR fetch_stocks.py:37 stockfetch.fetch_stocks处理异常：Cannot index by location index with a non-integer key
+ERROR fetch_stocks.py:37 stockfetch.fetch_stocks处理异常：'username' is an invalid keyword argument for DFCFStockInfo
+ERROR fetch_stocks.py:37 stockfetch.fetch_stocks处理异常：'username' is an invalid keyword argument for DFCFStockInfo
+ERROR fetch_stocks.py:37 stockfetch.fetch_stocks处理异常：'username' is an invalid keyword argument for DFCFStockInfo
+ERROR fetch_stocks.py:35 stockfetch.fetch_stocks处理异常：__init__() takes 1 positional argument but 2 were given
+ERROR fetch_stocks.py:33 stockfetch.fetch_stocks处理异常：__init__() takes 1 positional argument but 2 were given
+ERROR fetch_stocks.py:33 stockfetch.fetch_stocks处理异常：__init__() takes 1 positional argument but 2 were given
+ERROR fetch_stocks.py:33 stockfetch.fetch_stocks处理异常：__init__() takes 1 positional argument but 2 were given
+ERROR fetch_stocks.py:33 stockfetch.fetch_stocks处理异常：__init__() takes 1 positional argument but 2 were given
+ERROR fetch_stocks.py:33 stockfetch.fetch_stocks处理异常：'str' object has no attribute 'f2'
+ERROR fetch_stocks.py:33 stockfetch.fetch_stocks处理异常：__init__() takes 1 positional argument but 2 were given
+ERROR fetch_stocks.py:33 stockfetch.fetch_stocks处理异常：'dict' object has no attribute 'f2'
+ERROR fetch_stocks.py:33 stockfetch.fetch_stocks处理异常：__init__() takes 1 positional argument but 2 were given
+ERROR fetch_stocks.py:33 stockfetch.fetch_stocks处理异常：__init__() takes 1 positional argument but 2 were given
+ERROR fetch_stocks.py:33 stockfetch.fetch_stocks处理异常：__init__() takes 1 positional argument but 2 were given
+ERROR fetch_stocks.py:33 stockfetch.fetch_stocks处理异常：__init__() takes 1 positional argument but 2 were given
+ERROR fetch_stocks.py:33 stockfetch.fetch_stocks处理异常：__init__() takes 1 positional argument but 2 were given
+ERROR fetch_stocks.py:33 stockfetch.fetch_stocks处理异常：__init__() missing 1 required positional argument: 'email'
+ERROR fetch_stocks.py:35 stockfetch.fetch_stocks处理异常：Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+ERROR __init__.py:113 Error: Directory migrations already exists and is not empty
+ERROR fetch_stocks.py:35 stockfetch.fetch_stocks处理异常：Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+ERROR fetch_stocks.py:35 stockfetch.fetch_stocks处理异常：Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+ERROR fetch_stocks.py:36 stockfetch.fetch_stocks处理异常：Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+INFO utils.py:148 Note: NumExpr detected 12 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+INFO utils.py:161 NumExpr defaulting to 8 threads.
+INFO utils.py:148 Note: NumExpr detected 12 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+INFO utils.py:161 NumExpr defaulting to 8 threads.
+INFO utils.py:148 Note: NumExpr detected 12 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+INFO utils.py:161 NumExpr defaulting to 8 threads.
+INFO utils.py:148 Note: NumExpr detected 12 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+INFO utils.py:161 NumExpr defaulting to 8 threads.
+INFO utils.py:148 Note: NumExpr detected 12 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+INFO utils.py:161 NumExpr defaulting to 8 threads.
+INFO utils.py:148 Note: NumExpr detected 12 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+INFO utils.py:161 NumExpr defaulting to 8 threads.
