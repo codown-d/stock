@@ -1,4 +1,4 @@
-from core import db
+from core.models import db
 
 def check_table_exists(table_name):
     """check table exists"""

@@ -1,6 +1,7 @@
 # coding:utf-8
-from core import create_app, db
+from core import create_app
 from flask_migrate import Migrate
+from core.models import db
 
 
 # 创建flask的应用对象

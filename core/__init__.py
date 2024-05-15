@@ -7,7 +7,7 @@ cpath_current = os.path.dirname(os.path.dirname(__file__))
 log_path = os.path.join(cpath_current, 'log')
 from flask import Flask
 from config import config_map
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 from flask_wtf import CSRFProtect
 
@@ -17,7 +17,7 @@ from core.utils.commons import ReConverter
 
 
 # 数据库
-db = SQLAlchemy()
+# db = SQLAlchemy()
 
 # 创建redis连接对象
 redis_store = None
@@ -45,11 +45,11 @@ def create_app(config_name):
     app = Flask(__name__)
 
     # 根据配置模式的名字获取配置参数的类
-    config_class = config_map.get(config_name)
-    app.config.from_object(config_class)
+    # config_class = config_map.get(config_name)
+    # app.config.from_object(config_class)
 
     # 使用app初始化db
-    db.init_app(app)
+    # db.init_app(app)
 
     # # 初始化redis工具
     # global redis_store

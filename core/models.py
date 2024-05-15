@@ -1,5 +1,11 @@
 # -*- coding:utf-8 -*-
-from core import  db
+
+from flask_sqlalchemy import SQLAlchemy
+from config import config_map
+from flask import current_app
+
+db = SQLAlchemy()
+
 class StockStats(db.Model):
     __tablename__ = "stock_stats"
     id = db.Column(db.Integer, primary_key=True)  # 用户编号
@@ -126,8 +132,7 @@ class DFCFStockInfo(db.Model):
     f115 = db.Column(db.Float, nullable=False) #市盈率TTM
     f221 = db.Column(db.Float, nullable=False) #报告期
     def __init__(self, username, ):
-        self.username = username
-        print('self',self,'username',username)
+        pass
 
 
 class Role(db.Model):
@@ -136,3 +141,10 @@ class Role(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(32), nullable=False)
     user =  db.Column(db.String(32), nullable=False)
+
+if __name__ == '__main__':
+    config_class = config_map.get('prod')
+    current_app.config.from_object(config_class)
+    # 数据库
+    db.init_app(current_app)
+    pass
