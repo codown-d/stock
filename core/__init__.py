@@ -3,21 +3,19 @@ import os.path
 import sys
 cpath_current = os.path.dirname(os.path.dirname(__file__))
 # cpath = os.path.abspath(os.path.join(cpath_current, os.pardir))
-# sys.path.append(cpath)
+# print(cpath)
+# sys.path.append(cpath_current)
 log_path = os.path.join(cpath_current, 'log')
 from flask import Flask
 from config import config_map
-# from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 from flask_wtf import CSRFProtect
+from core.models import db
+from core.command import db_cmd
 
 import logging
 from logging.handlers import RotatingFileHandler
 from core.utils.commons import ReConverter
-
-
-# 数据库
-# db = SQLAlchemy()
 
 # 创建redis连接对象
 redis_store = None
@@ -45,11 +43,11 @@ def create_app(config_name):
     app = Flask(__name__)
 
     # 根据配置模式的名字获取配置参数的类
-    # config_class = config_map.get(config_name)
-    # app.config.from_object(config_class)
+    config_class = config_map.get(config_name)
+    app.config.from_object(config_class)
 
     # 使用app初始化db
-    # db.init_app(app)
+    db.init_app(app)
 
     # # 初始化redis工具
     # global redis_store
@@ -65,9 +63,8 @@ def create_app(config_name):
     app.url_map.converters["re"] = ReConverter
 
     # 为flask添加自定义命令
-    from core.command import database_cmd
     # app.cli.add_command(database)
-    app.register_blueprint(database_cmd)
+    app.register_blueprint(db_cmd)
     
     # 注册蓝图
     from core import api

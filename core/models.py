@@ -1,8 +1,6 @@
 # -*- coding:utf-8 -*-
 
 from flask_sqlalchemy import SQLAlchemy
-from config import config_map
-from flask import current_app
 
 db = SQLAlchemy()
 
@@ -90,7 +88,9 @@ class StockStats(db.Model):
 class DFCFStockInfo(db.Model):
     __tablename__ = "stock_info"
     id = db.Column(db.Integer, primary_key=True)  # 用户编号
-    date = db.Column(db.DateTime, nullable=False)  # 用户编号
+    date = db.Column(db.String(50))  # 日期
+    f12 = db.Column(db.String(50), nullable=False)# 代码
+    f14 = db.Column(db.String(50), nullable=False)# 名称
     f2 = db.Column(db.Float, nullable=False)  # 最新价
     f3 = db.Column(db.Float, nullable=False) # 涨跌幅
     f4 = db.Column(db.Float, nullable=False) # 涨跌额
@@ -98,11 +98,10 @@ class DFCFStockInfo(db.Model):
     f6 = db.Column(db.Float, nullable=False)# 成交额
     f7 = db.Column(db.Float, nullable=False)# 振幅
     f8 = db.Column(db.Float, nullable=False)# 换手率
+    f9 = db.Column(db.Float, nullable=False)# 市盈率动
     f10 = db.Column(db.Float, nullable=False)# 量比
     f11 = db.Column(db.Float, nullable=False)# 5分钟涨跌
-    f12 = db.Column(db.Float, nullable=False)# 代码
-    f13 = db.Column(db.Float, nullable=False)# --
-    f14 = db.Column(db.Float, nullable=False)# 名称
+    f13 = db.Column(db.Float, )# --
     f15 = db.Column(db.Float, nullable=False)# 最高
     f16 = db.Column(db.Float, nullable=False)# 最低
     f17 = db.Column(db.Float, nullable=False)# 今开
@@ -125,26 +124,10 @@ class DFCFStockInfo(db.Model):
     f49 = db.Column(db.Float, nullable=False)#毛利率
     f57 = db.Column(db.Float, nullable=False)#资产负债率
     f61 = db.Column(db.Float, nullable=False)# --
-    f100 = db.Column(db.Float, nullable=False)#所处行业
-    f112 = db.Column(db.Float, nullable=False)#每股收益
+    f100 = db.Column(db.String(50))#所处行业
+    f112 = db.Column(db.Float and db.String(50))#每股收益
     f113 = db.Column(db.Float, nullable=False)#每股净资产
     f114 = db.Column(db.Float, nullable=False) #市盈率静
     f115 = db.Column(db.Float, nullable=False) #市盈率TTM
     f221 = db.Column(db.Float, nullable=False) #报告期
-    def __init__(self, username, ):
-        pass
 
-
-class Role(db.Model):
-    """用户身份表"""
-    __tablename__ = "tbl_roles"
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(32), nullable=False)
-    user =  db.Column(db.String(32), nullable=False)
-
-if __name__ == '__main__':
-    config_class = config_map.get('prod')
-    current_app.config.from_object(config_class)
-    # 数据库
-    db.init_app(current_app)
-    pass
