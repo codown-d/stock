@@ -88,3 +88,8 @@ STOCK={
         "f221":'报告期',
     }
 }
+STOCK_BASE_IND={
+    'macd':{},
+    'macds':{},
+    'macdh':{}
+}
