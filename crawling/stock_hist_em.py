@@ -4,9 +4,17 @@
 Date: 2022/6/19 15:26
 Desc: 东方财富网-行情首页-沪深京 A 股
 """
+import os.path
+import sys
+cpath_current = os.path.dirname(os.path.dirname(__file__))
+cpath = os.path.abspath(os.path.join(cpath_current))
+print(cpath)
+sys.path.append(cpath)
+
 import requests
 import pandas as pd
 from functools import lru_cache
+from core.constants import STOCK
 
 __author__ = 'myh '
 __date__ = '2023/5/22 '
@@ -22,7 +30,7 @@ def stock_zh_a_spot_em() -> pd.DataFrame:
     url = "http://82.push2.eastmoney.com/api/qt/clist/get"
     params = {
         "pn": "1",#第几页
-        "pz": "6000",# limit
+        "pz": "1",# limit
         "po": "1",
         "np": "1",
         "ut": "bd1d9ddb04089700cf9c27f6f7426281",
@@ -38,7 +46,7 @@ def stock_zh_a_spot_em() -> pd.DataFrame:
     if not data_json["data"]["diff"]:
         return pd.DataFrame()
     temp_df = pd.DataFrame(data_json["data"]["diff"])
-    print('temp_df',temp_df,type(temp_df))
+    # temp_df.rename( columns = STOCK['DFCF'],inplace=True )
     return temp_df
 
 
@@ -383,40 +391,5 @@ def stock_zh_a_hist_pre_min_em(
 
 if __name__ == "__main__":
     stock_zh_a_spot_em_df = stock_zh_a_spot_em()
-    print(stock_zh_a_spot_em_df)
-
-    # code_id_map_em_df = code_id_map_em()
-    # print(code_id_map_em_df)
-
-    # stock_zh_a_hist_df = stock_zh_a_hist(
-    #     symbol="430090",
-    #     period="daily",
-    #     start_date="20220516",
-    #     end_date="20220722",
-    #     adjust="hfq",
-    # )
-    # print(stock_zh_a_hist_df)
-
-    # stock_zh_a_hist_min_em_df = stock_zh_a_hist_min_em(symbol="833454", period="1")
-    # print(stock_zh_a_hist_min_em_df)
-
-    # stock_zh_a_hist_pre_min_em_df = stock_zh_a_hist_pre_min_em(symbol="833454")
-    # print(stock_zh_a_hist_pre_min_em_df)
-
-    # stock_zh_a_spot_em_df = stock_zh_a_spot_em()
-    # print(stock_zh_a_spot_em_df)
-
-    # stock_zh_a_hist_min_em_df = stock_zh_a_hist_min_em(
-    #     symbol="000001", period='1'
-    # )
-    # print(stock_zh_a_hist_min_em_df)
-
-    # stock_zh_a_hist_df = stock_zh_a_hist(
-    #     symbol="833454",
-    #     period="daily",
-    #     start_date="20170301",
-    #     end_date="20211115",
-    #     adjust="hfq",
-    # )
-    # print(stock_zh_a_hist_df)
+    
 
