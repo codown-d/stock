@@ -39,7 +39,7 @@ def stock_management_detail() -> pd.DataFrame:
     """
     params = {
         "sortColumns":"HOLDER_NUM",#HOLD_NOTICE_DATE,SECURITY_CODE
-        "sortTypes":"1",#-1,-1
+        "sortTypes":"1",#-1,-1 控制sortColumns 排序
         "reportName":"RPT_HOLDERNUMLATEST",
         "columns":"SECURITY_CODE,SECURITY_NAME_ABBR,END_DATE,INTERVAL_CHRATE,HOLDER_NUM,PRE_HOLDER_NUM,HOLDER_NUM_CHANGE,HOLDER_NUM_RATIO,END_DATE,PRE_END_DATE",
     }
