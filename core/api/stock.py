@@ -11,7 +11,7 @@ from core.constants import STOCK_BASE_IND
 from core.api import api
 import akshare as ak
 from indicator import getMACD
-from crawling.stock_hold_management_detail_cninfo import stock_hold_management_detail_cninfo
+from crawling.stock_dfcf import stock_hold_management_detail_cninfo
 
 @api.route("/stock/summary",methods=['GET'])
 def get_stock_summary():

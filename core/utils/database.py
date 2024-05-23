@@ -1,3 +1,10 @@
+
+import os.path
+import sys
+cpath_current = os.path.dirname(os.path.dirname(__file__))
+cpath = os.path.abspath(os.path.join(cpath_current))
+sys.path.append(cpath)
+
 from core.models import db
 
 def check_table_exists(table_name):
@@ -16,10 +23,8 @@ def update_orm_object(orm_object, data):
 class BaseMixin():
     @classmethod
     def insert_or_update_base(self,stockData):
-        print('stockData',self)
-        date=stockData['date']
-        f12=stockData['f12']
-        existing_stock = self.query.filter_by(date=date,f12=f12).first()
+        id=stockData['id']
+        existing_stock = self.query.filter_by(id=id).first()
         if existing_stock:
             update_orm_object(existing_stock, stockData)
         else:
@@ -28,13 +33,13 @@ class BaseMixin():
     # 插入或更新数据
     @classmethod
     def insert_or_update(self,data:dict):
-        BaseMixin.insert_or_update_base(data)
+        self.insert_or_update_base(data)
         db.session.commit()
     # 插入或更新多条数据
     @classmethod
     def insert_or_update_all(self,data:list):
         for x in range(0, len(data)):
             item = data[x]
-            BaseMixin.insert_or_update_base(item)
+            self.insert_or_update_base(item)
         db.session.commit()
 

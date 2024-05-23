@@ -2,10 +2,6 @@
 
 import os.path
 import sys
-
-from numpy import dtype
-
-
 cpath_current = os.path.dirname(os.path.dirname(__file__))
 cpath = os.path.abspath(os.path.join(cpath_current))
 sys.path.append(cpath)
@@ -13,11 +9,10 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 from core.utils.database import BaseMixin
 
-class StockStats(db.Model):
-    __tablename__ = "stock_stats"
-    id = db.Column(db.Integer, primary_key=True)  # 用户编号
-    date = db.Column(db.DateTime, nullable=False)  # 用户编号
-    code = db.Column(db.String(8), nullable=False)  # 用户编号
+class StockIndicators(db.Model):
+    __tablename__ = "stock_indicators"
+    date = db.Column(db.String(32), primary_key=True)  # 用户编号
+    code = db.Column(db.String(8), primary_key=True)  # 用户编号
     name = db.Column(db.String(32), nullable=False)  # 用户编号
     close = db.Column(db.Float, nullable=False)  # 收盘价
     macd = db.Column(db.Float, nullable=False)
@@ -96,9 +91,9 @@ class StockStats(db.Model):
 
 class DFCFStockInfo(BaseMixin,db.Model):
     __tablename__ = "stock_info"
-    id = db.Column(db.Integer,nullable=False)  # 用户编号
-    date = db.Column(db.String(50),nullable=False,primary_key=True)  # 日期
-    f12 = db.Column(db.String(50), nullable=False,primary_key=True)# 代码
+    id = db.Column(db.String(50),primary_key=True)  # 用户编号
+    date = db.Column(db.String(50),nullable=False)  # 日期
+    f12 = db.Column(db.String(50), nullable=False)# 代码
     f14 = db.Column(db.String(50), nullable=False)# 名称
     f2 = db.Column(db.Float and db.String(50))  # 最新价
     f3 = db.Column(db.Float, nullable=False) # 涨跌幅

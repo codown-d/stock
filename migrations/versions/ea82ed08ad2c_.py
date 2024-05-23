@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 45f2b88891c2
+Revision ID: ea82ed08ad2c
 Revises: 
-Create Date: 2024-05-21 18:09:03.551656
+Create Date: 2024-05-22 11:29:27.018499
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import mysql
 
 # revision identifiers, used by Alembic.
-revision = '45f2b88891c2'
+revision = 'ea82ed08ad2c'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,7 +21,8 @@ def upgrade():
     with op.batch_alter_table('stock_info', schema=None) as batch_op:
         batch_op.alter_column('id',
                existing_type=mysql.INTEGER(),
-               nullable=True)
+               type_=sa.String(length=50),
+               existing_nullable=False)
         batch_op.alter_column('date',
                existing_type=mysql.VARCHAR(length=50),
                nullable=False)
@@ -44,7 +45,8 @@ def downgrade():
                existing_type=mysql.VARCHAR(length=50),
                nullable=True)
         batch_op.alter_column('id',
-               existing_type=mysql.INTEGER(),
-               nullable=False)
+               existing_type=sa.String(length=50),
+               type_=mysql.INTEGER(),
+               existing_nullable=False)
 
     # ### end Alembic commands ###

@@ -30,7 +30,7 @@ def stock_zh_a_spot_em() -> pd.DataFrame:
     url = "http://82.push2.eastmoney.com/api/qt/clist/get"
     params = {
         "pn": "1",#第几页
-        "pz": "1",# limit
+        "pz": "6000",# limit
         "po": "1",
         "np": "1",
         "ut": "bd1d9ddb04089700cf9c27f6f7426281",
@@ -46,6 +46,7 @@ def stock_zh_a_spot_em() -> pd.DataFrame:
     if not data_json["data"]["diff"]:
         return pd.DataFrame()
     temp_df = pd.DataFrame(data_json["data"]["diff"])
+    temp_df=temp_df[temp_df["f2"] !='-']
     # temp_df.rename( columns = STOCK['DFCF'],inplace=True )
     return temp_df
 
