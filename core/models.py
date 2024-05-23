@@ -91,7 +91,7 @@ class StockIndicators(db.Model):
 
 class DFCFStockInfo(BaseMixin,db.Model):
     __tablename__ = "stock_info"
-    id = db.Column(db.String(50),primary_key=True)  # 用户编号
+    id = db.Column(db.String(50),primary_key=True,nullable=False)  # 用户编号
     date = db.Column(db.String(50),nullable=False)  # 日期
     f12 = db.Column(db.String(50), nullable=False)# 代码
     f14 = db.Column(db.String(50), nullable=False)# 名称
@@ -134,3 +134,15 @@ class DFCFStockInfo(BaseMixin,db.Model):
     f114 = db.Column(db.Float, nullable=False) #市盈率(静)
     f115 = db.Column(db.Float, nullable=False) #市盈率TTM
     f221 = db.Column(db.Float, nullable=False) #报告期
+
+class Shareholder(BaseMixin,db.Model):
+    __tablename__ = "stock_shareholder"
+    id = db.Column(db.String(50),primary_key=True)  # 用户编号
+    code = db.Column(db.String(50),nullable=False)  # 日期
+    price = db.Column(db.String(50),nullable=False)  # 日期
+    zxzdf = db.Column(db.String(50),nullable=False)  # 日期
+    zxgdhs = db.Column(db.String(50),nullable=False)  # 日期
+    zxhjcgsl = db.Column(db.String(50),nullable=False)  # 日期
+    zxhjcgsz = db.Column(db.String(50),nullable=False)  # 日期
+    zxhjcgbl = db.Column(db.String(50),nullable=False)  # 日期
+    declaration_date = db.Column(db.String(50),nullable=False)  # 日期

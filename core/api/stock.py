@@ -7,11 +7,9 @@ import sys
 cpath_current = os.path.dirname(os.path.dirname(__file__))
 cpath = os.path.abspath(os.path.join(cpath_current, os.pardir))
 sys.path.append(cpath)
-from core.constants import STOCK_BASE_IND
 from core.api import api
 import akshare as ak
 from indicator import getMACD
-from crawling.stock_dfcf import stock_hold_management_detail_cninfo
 
 @api.route("/stock/summary",methods=['GET'])
 def get_stock_summary():
@@ -42,12 +40,13 @@ def get_stock_hold_num_cninfo(date="20210630"):
     return 'stock_summary.to_string'
 
 # 高管持股变动明细
-@api.route("/stock/min",methods=['GET'])
-def get_stock_hold_management_detail_cninfo(symbol="增持"):
-    stock_hold_management_detail_cninfo_df = stock_hold_management_detail_cninfo(symbol)
-    stock_hold_management_detail_cninfo_df.sort_values(by=['变动比例'], ascending=False)
-    print(stock_hold_management_detail_cninfo_df)
-    return 'stock_summary.to_string'
+# @api.route("/stock/min",methods=['GET'])
+# def get_stock_hold_management_detail_cninfo(symbol="增持"):
+#     stock_hold_management_detail_cninfo_df = stock_hold_management_detail_cninfo(symbol)
+#     stock_hold_management_detail_cninfo_df.sort_values(by=['变动比例'], ascending=False)
+#     print(stock_hold_management_detail_cninfo_df)
+#     return 'stock_summary.to_string'
 if __name__ == '__main__':
-    get_stock_hold_management_detail_cninfo()
+    pass
+    # get_stock_hold_management_detail_cninfo()
 
