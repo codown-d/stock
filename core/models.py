@@ -135,14 +135,46 @@ class DFCFStockInfo(BaseMixin,db.Model):
     f115 = db.Column(db.Float, nullable=False) #市盈率TTM
     f221 = db.Column(db.Float, nullable=False) #报告期
 
-class Shareholder(BaseMixin,db.Model):
+class Shareholder(db.Model):
     __tablename__ = "stock_shareholder"
-    id = db.Column(db.String(50),primary_key=True)  # 用户编号
-    code = db.Column(db.String(50),nullable=False)  # 日期
-    price = db.Column(db.String(50),nullable=False)  # 日期
-    zxzdf = db.Column(db.String(50),nullable=False)  # 日期
-    zxgdhs = db.Column(db.String(50),nullable=False)  # 日期
-    zxhjcgsl = db.Column(db.String(50),nullable=False)  # 日期
-    zxhjcgsz = db.Column(db.String(50),nullable=False)  # 日期
-    zxhjcgbl = db.Column(db.String(50),nullable=False)  # 日期
-    declaration_date = db.Column(db.String(50),nullable=False)  # 日期
+    code = db.Column(db.String(50),primary_key=True)  # 股票代码
+    name = db.Column(db.String(50),nullable=False)  # 股票名称
+    price = db.Column(db.String(50),nullable=True)  # 最新价格
+    price_range= db.Column(db.String(50),nullable=True)  # 涨跌幅
+    shareholder_count = db.Column(db.String(50),nullable=True)  # 最新股东户数
+    shareholder_chigu_shuliang = db.Column(db.String(50),nullable=True)  # 最新户均持股数量(股) 
+    shareholder_chigu_shizhi = db.Column(db.String(50),nullable=True)  # 最新户均持股市值
+    shareholder_chigu_bili = db.Column(db.String(50),nullable=True)  # 最新户均持股比例
+    gonggao_date = db.Column(db.String(50),nullable=False)  # 公告日期
+    info = db.Column(db.JSON,nullable=True)  # 最新户均持股比例
+    def update_orm_object(self,orm_object, data):
+        for key, value in data.items():
+            if hasattr(orm_object, key):
+                setattr(orm_object, key, value)
+
+    def insert_or_update_base(self,stockData):
+        code=stockData['code']
+        existing_stock = self.query.filter_by(code=code).first()
+        print('existing_stock',existing_stock)
+        if existing_stock:
+            # print('info',existing_stock['info'])
+            # info = existing_stock['info'] or dict()
+            # gonggao_date=stockData['gonggao_date']
+            # info[gonggao_date]=stockData['shareholder_count']
+            # stockData['info']=info
+            self.update_orm_object(existing_stock, stockData)
+        else:
+            stock = self(**stockData)
+            db.session.add(stock)
+    # 插入或更新数据
+    @classmethod
+    def insert_or_update(self,data:dict):
+        self.insert_or_update_base(data)
+        db.session.commit()
+    # 插入或更新多条数据
+    @classmethod
+    def insert_or_update_all(self,data:list):
+        for x in range(0, len(data)):
+            item = data[x]
+            self.insert_or_update_base(item)
+        db.session.commit()

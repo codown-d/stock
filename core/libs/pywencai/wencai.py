@@ -7,6 +7,11 @@ import pandas as pd
 import time
 import logging
 import pydash as _
+import os.path
+import sys
+cpath_current = os.path.dirname(os.path.dirname(__file__))
+cpath = os.path.abspath(os.path.join(cpath_current))
+sys.path.append(cpath)
 from .convert import convert
 from .headers import headers
 
