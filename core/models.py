@@ -145,29 +145,21 @@ class Shareholder(db.Model):
     shareholder_chigu_shuliang = db.Column(db.String(50),nullable=True)  # 最新户均持股数量(股) 
     shareholder_chigu_shizhi = db.Column(db.String(50),nullable=True)  # 最新户均持股市值
     shareholder_chigu_bili = db.Column(db.String(50),nullable=True)  # 最新户均持股比例
-    gonggao_date = db.Column(db.String(50),nullable=False)  # 公告日期
     info = db.Column(db.JSON,nullable=True)  # 最新户均持股比例
     def update_orm_object(self,orm_object, data):
         for key, value in data.items():
             if hasattr(orm_object, key):
                 setattr(orm_object, key, value)
 
+
     def insert_or_update_base(self,stockData):
         code=stockData['code']
         existing_stock = self.query.filter_by(code=code).first()
-        print('existing_stock',existing_stock,code)
         if existing_stock:
-            info=existing_stock.info or dict()
-            info.setdefault(stockData['gonggao_date'],stockData['shareholder_count'])
-            # if existing_stock.info:  
-            #     info[stockData['gonggao_date']]=stockData['shareholder_count']
-            #     existing_stock.info=info
-            # else:
-            #     existing_stock.info={}
-            # stockData.setdefault('info',info)
-            # print('info',existing_stock,stockData,info)
-            setattr(existing_stock, 'info', info)
-            # print(info,existing_stock.info)
+            # info=existing_stock.info or dict()
+            # info[stockData['gonggao_date']]=stockData['shareholder_count']
+            # existing_stock.info=info
+            print(stockData['info'])
             self.update_orm_object(self,existing_stock, stockData)
         else:
             stock = self(**stockData)
@@ -180,7 +172,6 @@ class Shareholder(db.Model):
     # 插入或更新多条数据
     @classmethod
     def insert_or_update_all(self,data:list):
-        print(data)
         for x in range(0, len(data)):
             item = data[x]
             self.insert_or_update_base(self,item)
