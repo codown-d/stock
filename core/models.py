@@ -155,10 +155,10 @@ class Shareholder(db.Model):
     def insert_or_update_base(self,stockData):
         code=stockData['code']
         existing_stock = self.query.filter_by(code=code).first()
+        print('existing_stock',existing_stock,code)
         if existing_stock:
             info=existing_stock.info or dict()
             info.setdefault(stockData['gonggao_date'],stockData['shareholder_count'])
-            info.setdefault('gonggao_date',stockData['shareholder_count'])
             # if existing_stock.info:  
             #     info[stockData['gonggao_date']]=stockData['shareholder_count']
             #     existing_stock.info=info
@@ -167,7 +167,7 @@ class Shareholder(db.Model):
             # stockData.setdefault('info',info)
             # print('info',existing_stock,stockData,info)
             setattr(existing_stock, 'info', info)
-            print(info,existing_stock.info)
+            # print(info,existing_stock.info)
             self.update_orm_object(self,existing_stock, stockData)
         else:
             stock = self(**stockData)
@@ -180,6 +180,7 @@ class Shareholder(db.Model):
     # 插入或更新多条数据
     @classmethod
     def insert_or_update_all(self,data:list):
+        print(data)
         for x in range(0, len(data)):
             item = data[x]
             self.insert_or_update_base(self,item)
