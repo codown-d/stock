@@ -176,5 +176,5 @@ class Shareholder(db.Model):
     def insert_or_update_all(self,data:list):
         for x in range(0, len(data)):
             item = data[x]
-            self.insert_or_update_base(item)
+            self.insert_or_update_base(self,item)
         db.session.commit()
