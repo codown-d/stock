@@ -155,21 +155,27 @@ class Shareholder(db.Model):
     def insert_or_update_base(self,stockData):
         code=stockData['code']
         existing_stock = self.query.filter_by(code=code).first()
-        print('existing_stock',existing_stock)
         if existing_stock:
-            # print('info',existing_stock['info'])
-            # info = existing_stock['info'] or dict()
-            # gonggao_date=stockData['gonggao_date']
-            # info[gonggao_date]=stockData['shareholder_count']
-            # stockData['info']=info
-            self.update_orm_object(existing_stock, stockData)
+            info=existing_stock.info or dict()
+            info.setdefault(stockData['gonggao_date'],stockData['shareholder_count'])
+            info.setdefault('gonggao_date',stockData['shareholder_count'])
+            # if existing_stock.info:  
+            #     info[stockData['gonggao_date']]=stockData['shareholder_count']
+            #     existing_stock.info=info
+            # else:
+            #     existing_stock.info={}
+            # stockData.setdefault('info',info)
+            # print('info',existing_stock,stockData,info)
+            setattr(existing_stock, 'info', info)
+            print(info,existing_stock.info)
+            self.update_orm_object(self,existing_stock, stockData)
         else:
             stock = self(**stockData)
             db.session.add(stock)
     # 插入或更新数据
     @classmethod
     def insert_or_update(self,data:dict):
-        self.insert_or_update_base(data)
+        self.insert_or_update_base(self,data)
         db.session.commit()
     # 插入或更新多条数据
     @classmethod
