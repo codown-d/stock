@@ -145,21 +145,18 @@ class Shareholder(db.Model):
     shareholder_chigu_shuliang = db.Column(db.String(50),nullable=True)  # 最新户均持股数量(股) 
     shareholder_chigu_shizhi = db.Column(db.String(50),nullable=True)  # 最新户均持股市值
     shareholder_chigu_bili = db.Column(db.String(50),nullable=True)  # 最新户均持股比例
+    shareholder_level = db.Column(db.String(50),nullable=True)  # 等级判断股票股东数减少程度t0最高
+    shareholder_level_per = db.Column(db.String(50),nullable=True)  # 等级判断股票股东数减少程度t0最高
     info = db.Column(db.JSON,nullable=True)  # 最新户均持股比例
     def update_orm_object(self,orm_object, data):
         for key, value in data.items():
             if hasattr(orm_object, key):
                 setattr(orm_object, key, value)
 
-
     def insert_or_update_base(self,stockData):
         code=stockData['code']
         existing_stock = self.query.filter_by(code=code).first()
         if existing_stock:
-            # info=existing_stock.info or dict()
-            # info[stockData['gonggao_date']]=stockData['shareholder_count']
-            # existing_stock.info=info
-            print(stockData['info'])
             self.update_orm_object(self,existing_stock, stockData)
         else:
             stock = self(**stockData)

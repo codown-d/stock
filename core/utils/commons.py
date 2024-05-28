@@ -42,3 +42,22 @@ def deep_merge_dicts(dict1, dict2):
             dict1[key] = dict2[key]
     return dict1
 
+def get_time_date_trend(elem):
+    elem_sort=sorted(elem.keys(),reverse=True)
+    result=[]
+    for key in elem_sort:
+        result.append(int(elem[key]))
+    return result
+
+def gp_type_szsh(gp):
+    gp_type=''
+    code = gp['code']
+    if code.find('60',0,3)==0:
+        gp_type='sh'
+    elif code.find('00',0,3)==0:
+        gp_type='sz'
+    elif code.find('688',0,4)==0:
+        gp_type='sh'
+    elif code.find('300',0,4)==0:
+        gp_type='sz'
+    return gp_type!=''

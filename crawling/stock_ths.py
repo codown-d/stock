@@ -22,7 +22,9 @@ def stock_ths_base(**kwargs) -> pd.DataFrame:
     https://www.iwencai.com/stockpick/load-data
     """
     temp_df = wencai.get(**kwargs)
-    temp_df = temp_df.drop(['股票代码','market_code'], axis=1)
+    time = arrow.now().format("YYYYMMDD")
+    temp_df[time]=temp_df['最新股东户数']
+    temp_df = temp_df.drop(['股票代码','market_code',f'股东人数变动公告日[{time}]'], axis=1)
     temp_df.rename(
         columns={
             "股票简称": "name",
@@ -52,7 +54,8 @@ def stock_shareholder_history() -> pd.DataFrame:
     https://www.iwencai.com/stockpick/load-data
     """
     query='最近8个季度股东户数，最新股东户数'
-    temp_df = stock_ths_base(query=query,loop=1)
+    temp_df = stock_ths_base(query=query,loop=True)
+    print(temp_df)
     new_column=[]
     for col in temp_df.columns:
         pattern = r"\[(.*?)\]"

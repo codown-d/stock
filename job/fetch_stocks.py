@@ -27,20 +27,4 @@ def fetch_stocks():
     except Exception as e:
         logging.error(f"fetch_stocks处理异常：{e}")
     return None
-# 更新股东信息
-def fetch_shareholder():
-    try:
-        df = ths.stock_shareholder_latest()
-        df['id']= df['code']
-        if df is None or len(df.index) == 0:
-            return None
-        data =  df.to_dict(orient='records')
-        Shareholder.insert_or_update_all(data)
-        return df
-    except Exception as e:
-        logging.error(f"{Shareholder.__name__}处理异常：{e}")
-    return None
-
-if __name__ == '__main__':
-    fetch_stocks()
        
