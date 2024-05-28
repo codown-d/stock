@@ -22,7 +22,7 @@ app = Flask(__name__)
 # 根据配置模式的名字获取配置参数的类
 config_class = config_map.get('dev')
 app.config.from_object(config_class)
-def main():
+def main():   
     start = time.time()
     _start = datetime.datetime.now()
     logging.info("######## 任务执行时间: %s #######" % _start.strftime("%Y-%m-%d %H:%M:%S.%f"))

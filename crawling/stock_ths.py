@@ -4,6 +4,7 @@
 Desc: 同花顺 股东户数
 """
 import re
+import datetime
 import pydash as _
 import arrow
 import os.path
@@ -14,6 +15,7 @@ sys.path.append(cpath)
 
 import pandas as pd
 import core.libs.pywencai as wencai
+from dateutil.relativedelta import relativedelta           # 引入新的包
 
 
 def stock_ths_base(**kwargs) -> pd.DataFrame:
@@ -24,19 +26,34 @@ def stock_ths_base(**kwargs) -> pd.DataFrame:
     temp_df = wencai.get(**kwargs)
     time = arrow.now().format("YYYYMMDD")
     temp_df[time]=temp_df['最新股东户数']
-    temp_df = temp_df.drop(['股票代码','market_code',f'股东人数变动公告日[{time}]'], axis=1)
-    temp_df.rename(
-        columns={
-            "股票简称": "name",
-            "最新价":"price",
-            "最新涨跌幅":"price_range",
-            "最新股东户数": "shareholder_count",
-            "最新户均持股数量": "shareholder_chigu_shuliang",
-            "最新户均持股市值": "shareholder_chigu_shizhi",
-            "最新户均持股比例": "shareholder_chigu_bili",
-        },
-        inplace=True,
-    )
+    # temp_df = temp_df.drop(['股票代码','market_code',f'股东人数变动公告日[{time}]'], axis=1)
+    # temp_df.columns=[
+    #         "股票代码",
+    #         "最新价",
+    #         "最新涨跌幅",
+    #         "股票简称",
+    #         "最新户均持股数量",
+    #         "最新户均持股市值",
+    #         "最新户均持股比例",
+    #         '-',
+    #         '-',
+    #         '-',
+    #         '-',
+    #         '-',
+    #         '-',
+    #         '-',
+    #         '-',
+    #         '-',
+    #         '-',
+    #         '-',
+    #         '-',
+    #     ]
+    today = datetime.date.today()
+    quarter_end_day = datetime.date(today.year,today.month - (today.month - 1) % 3 +2, 1) + relativedelta(months=1,days=-1)
+    quarter_end_day.isoformat() 
+    print(temp_df.columns,today,quarter_end_day)
+    temp_df=temp_df[['股票代码', '最新价', '股票简称','market_code']]
+    print(temp_df)
     return temp_df
 
 def stock_shareholder_latest() -> pd.DataFrame:
@@ -54,17 +71,17 @@ def stock_shareholder_history() -> pd.DataFrame:
     https://www.iwencai.com/stockpick/load-data
     """
     query='最近8个季度股东户数，最新股东户数'
-    temp_df = stock_ths_base(query=query,loop=True)
+    temp_df = stock_ths_base(query=query,loop=1)
     print(temp_df)
-    new_column=[]
-    for col in temp_df.columns:
-        pattern = r"\[(.*?)\]"
-        result = re.findall(pattern, col)
-        if(len(result)):
-            new_column.append(result[0])
-        else:
-            new_column.append(col)
-    temp_df.columns=new_column
+    # new_column=[]
+    # for col in temp_df.columns:
+    #     pattern = r"\[(.*?)\]"
+    #     result = re.findall(pattern, col)
+    #     if(len(result)):
+    #         new_column.append(result[0])
+    #     else:
+    #         new_column.append(col)
+    # temp_df.columns=new_column
     return temp_df
 
 
