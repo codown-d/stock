@@ -1,5 +1,7 @@
 # coding:utf-8
 
+import datetime
+import arrow
 from werkzeug.routing import BaseConverter
 from flask import session, jsonify, g
 import functools
@@ -49,15 +51,32 @@ def get_time_date_trend(elem):
         result.append(int(elem[key]))
     return result
 
-def gp_type_szsh(gp):
+def gp_type_szsh(code:str):
     gp_type=''
-    code = gp['code']
     if code.find('60',0,3)==0:
         gp_type='sh'
     elif code.find('00',0,3)==0:
         gp_type='sz'
-    elif code.find('688',0,4)==0:
+    elif code.find('68',0,4)==0:
         gp_type='sh'
-    elif code.find('300',0,4)==0:
+    elif code.find('30',0,4)==0:
         gp_type='sz'
     return gp_type!=''
+
+def get_latest_quarter_list(quarter=9):
+    year = datetime.date.today().year
+    time_now = int(arrow.now().format("YYYYMMDD"))
+    list = ['0331','0630','0930','1231']
+    new_list=[]
+    i = 0
+    while i <=10:
+        for num in list:
+            time=int(f'{year-i}{num}')
+            if(time_now>time):
+                new_list.append(f'{time}')
+        i +=1
+    new_list.sort(reverse=True)
+    return new_list[:quarter]
+if __name__ == '__main__':
+    list = get_latest_quarter_list()
+    print(list)

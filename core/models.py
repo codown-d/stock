@@ -139,15 +139,21 @@ class Shareholder(db.Model):
     __tablename__ = "stock_shareholder"
     code = db.Column(db.String(50),primary_key=True)  # 股票代码
     name = db.Column(db.String(50),nullable=False)  # 股票名称
-    price = db.Column(db.String(50),nullable=True)  # 最新价格
-    price_range= db.Column(db.String(50),nullable=True)  # 涨跌幅
-    shareholder_count = db.Column(db.String(50),nullable=True)  # 最新股东户数
-    shareholder_chigu_shuliang = db.Column(db.String(50),nullable=True)  # 最新户均持股数量(股) 
-    shareholder_chigu_shizhi = db.Column(db.String(50),nullable=True)  # 最新户均持股市值
-    shareholder_chigu_bili = db.Column(db.String(50),nullable=True)  # 最新户均持股比例
-    shareholder_level = db.Column(db.String(50),nullable=True)  # 等级判断股票股东数减少程度t0最高
-    shareholder_level_per = db.Column(db.String(50),nullable=True)  # 等级判断股票股东数减少程度t0最高
-    info = db.Column(db.JSON,nullable=True)  # 最新户均持股比例
+    price = db.Column(db.Float,nullable=True)  # 最新价格
+    shareholder_chigu_shizhi = db.Column(db.Float,nullable=True)  # 最新户均持股市值
+    quarter_0 = db.Column(db.Integer,nullable=True)  
+    quarter_1 = db.Column(db.Integer,nullable=True)  
+    quarter_2 = db.Column(db.Integer,nullable=True)  
+    quarter_3 = db.Column(db.Integer,nullable=True)  
+    quarter_4 = db.Column(db.Integer,nullable=True)  
+    quarter_5 = db.Column(db.Integer,nullable=True)  
+    quarter_6 = db.Column(db.Integer,nullable=True)  
+    quarter_7 = db.Column(db.Integer,nullable=True)  
+    quarter_8 = db.Column(db.Integer,nullable=True)  
+    quarter_9 = db.Column(db.Integer,nullable=True)  
+    shareholder_level_1 = db.Column(db.Float,nullable=True)  
+    shareholder_level_2 = db.Column(db.Float,nullable=True)  
+
     def update_orm_object(self,orm_object, data):
         for key, value in data.items():
             if hasattr(orm_object, key):
@@ -173,3 +179,22 @@ class Shareholder(db.Model):
             item = data[x]
             self.insert_or_update_base(self,item)
         db.session.commit()
+
+class CountStockBull(db.Model):
+    __tablename__ = "stock_stock_bull"
+    code = db.Column(db.String(50),primary_key=True) 
+    name = db.Column(db.String(50),nullable=False)  
+    price = db.Column(db.Float,nullable=True)  
+    shareholder_chigu_shizhi = db.Column(db.Float,nullable=True) 
+    quarter_0 = db.Column(db.Integer,nullable=True)  
+    quarter_1 = db.Column(db.Integer,nullable=True)  
+    quarter_2 = db.Column(db.Integer,nullable=True)  
+    quarter_3 = db.Column(db.Integer,nullable=True)  
+    quarter_4 = db.Column(db.Integer,nullable=True)  
+    quarter_5 = db.Column(db.Integer,nullable=True)  
+    quarter_6 = db.Column(db.Integer,nullable=True)  
+    quarter_7 = db.Column(db.Integer,nullable=True)  
+    quarter_8 = db.Column(db.Integer,nullable=True)  
+    quarter_9 = db.Column(db.Integer,nullable=True)  
+    shareholder_level_1 = db.Column(db.Float,nullable=True)  
+    shareholder_level_2 = db.Column(db.Float,nullable=True)  
