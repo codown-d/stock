@@ -53,15 +53,11 @@ def get_time_date_trend(elem):
 
 def gp_type_szsh(code:str):
     gp_type=''
-    if code.find('60',0,3)==0:
+    if code.find('60',0,3)==0 or code.find('68',0,4)==0:
         gp_type='sh'
-    elif code.find('00',0,3)==0:
+    elif code.find('00',0,3)==0 or code.find('30',0,4)==0:
         gp_type='sz'
-    elif code.find('68',0,4)==0:
-        gp_type='sh'
-    elif code.find('30',0,4)==0:
-        gp_type='sz'
-    return gp_type!=''
+    return gp_type
 
 def get_latest_quarter_list(quarter=9):
     year = datetime.date.today().year
