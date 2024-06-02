@@ -5,7 +5,7 @@ import arrow
 from werkzeug.routing import BaseConverter
 from flask import session, jsonify, g
 import functools
-
+import numpy as np
 
 # 定义正则转换器
 class ReConverter(BaseConverter):
@@ -73,6 +73,16 @@ def get_latest_quarter_list(quarter=9):
         i +=1
     new_list.sort(reverse=True)
     return new_list[:quarter]
+
+def calc_pre_minute_change(df,minute):
+    # df[]
+    df['成交量变化率']=df['成交量'].pct_change()*100
+    df["成交量变化率_c"] = np.where(df['时间'] < '09:30:00', 0, df['成交量变化率'])
+    df['成交量累计变化'] =df["成交量变化率_c"].cumsum(axis=0)/100
+    # df['股价变化率']=df['股价'].pct_change()*100
+    df = df.drop(['成交量变化率_c'], axis=1)
+    return df
+
 if __name__ == '__main__':
     list = get_latest_quarter_list()
     print(list)

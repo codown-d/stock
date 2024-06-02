@@ -23,7 +23,7 @@ def fetch_stocks_all_code():
         for res in result:
                 code = res['code']
                 type=gp_type_szsh(code)
-                if(type!='' and int(code)>=1000):
+                if(type!='' and int(code)>=605183):
                     # time.sleep(1)
                     stock_zh_a_minute_df = fetch_stocks_xlcj(f'{type}{code}')
                     stock_zh_a_minute_df.to_csv(f'{cpath}/stock_date/csv/minute/{code}.csv', mode='w', index=False, header=True, sep=',')

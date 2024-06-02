@@ -1,29 +1,31 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
+import json
+import requests
+import pandas as pd
 import os.path
 import sys
 cpath_current = os.path.dirname(os.path.dirname(__file__))
 cpath = os.path.abspath(os.path.join(cpath_current))
-print(cpath)
 sys.path.append(cpath)
-import pandas as pd
-import requests
-from core.utils.commons import deep_merge_dicts
 
+from core.utils.commons import calc_pre_minute_change, deep_merge_dicts
 # 东财数据中心基础数据
+
+
 def stock_detail_em(dict2) -> pd.DataFrame:
     """
     东方财富网
     """
     url = "https://datacenter-web.eastmoney.com/api/data/v1/get"
     dict1 = {
-        "pageSize":6000,
-        "pageNumber":1,
-        'quoteType':0,
-        'source':'WEB',
-        "client":'WEB',
-       
+        "pageSize": 6000,
+        "pageNumber": 1,
+        'quoteType': 0,
+        'source': 'WEB',
+        "client": 'WEB',
+
     }
     params = deep_merge_dicts(dict1, dict2)
     r = requests.get(url, params=params)
@@ -32,18 +34,20 @@ def stock_detail_em(dict2) -> pd.DataFrame:
     return temp_df
 
 # 股东户数（最新）clear
+
+
 def stock_management_detail() -> pd.DataFrame:
     """
     东方财富网-股东户数（最新）
     https://data.eastmoney.com/gdhs/
     """
     params = {
-        "sortColumns":"HOLDER_NUM",#HOLD_NOTICE_DATE,SECURITY_CODE
-        "sortTypes":"1",#-1,-1 控制sortColumns 排序
-        "reportName":"RPT_HOLDERNUMLATEST",
-        "columns":"SECURITY_CODE,SECURITY_NAME_ABBR,END_DATE,INTERVAL_CHRATE,HOLDER_NUM,PRE_HOLDER_NUM,HOLDER_NUM_CHANGE,HOLDER_NUM_RATIO,END_DATE,PRE_END_DATE",
+        "sortColumns": "HOLDER_NUM",  # HOLD_NOTICE_DATE,SECURITY_CODE
+        "sortTypes": "1",  # -1,-1 控制sortColumns 排序
+        "reportName": "RPT_HOLDERNUMLATEST",
+        "columns": "SECURITY_CODE,SECURITY_NAME_ABBR,END_DATE,INTERVAL_CHRATE,HOLDER_NUM,PRE_HOLDER_NUM,HOLDER_NUM_CHANGE,HOLDER_NUM_RATIO,END_DATE,PRE_END_DATE",
     }
-    temp_df= stock_detail_em(params)
+    temp_df = stock_detail_em(params)
     temp_df.rename(
         columns={
             "SECURITY_CODE": "代码",
@@ -64,16 +68,18 @@ def stock_management_detail() -> pd.DataFrame:
     return temp_df
 
 # 股东增减持
+
+
 def stock_management_increase_detail_em() -> pd.DataFrame:
     params = {
-       "sortColumns":"END_DATE,SECURITY_CODE,EITIME",
-        "sortTypes":"-1,-1,-1",
-        "reportName":"RPT_SHARE_HOLDER_INCREASE",
-        "columns":"f2,SECURITY_CODE,SECURITY_NAME_ABBR,NEWEST_PRICE,CHANGE_RATE_QUOTES,CHANGE_NUM,AFTER_CHANGE_RATE,CHANGE_FREE_RATIO",
-        'quoteColumns':'f2~01~SECURITY_CODE~NEWEST_PRICE,f3~01~SECURITY_CODE~CHANGE_RATE_QUOTES',
-        'filter':f'(DIRECTION="增持")'
+        "sortColumns": "END_DATE,SECURITY_CODE,EITIME",
+        "sortTypes": "-1,-1,-1",
+        "reportName": "RPT_SHARE_HOLDER_INCREASE",
+        "columns": "f2,SECURITY_CODE,SECURITY_NAME_ABBR,NEWEST_PRICE,CHANGE_RATE_QUOTES,CHANGE_NUM,AFTER_CHANGE_RATE,CHANGE_FREE_RATIO",
+        'quoteColumns': 'f2~01~SECURITY_CODE~NEWEST_PRICE,f3~01~SECURITY_CODE~CHANGE_RATE_QUOTES',
+        'filter': f'(DIRECTION="增持")'
     }
-    temp_df= stock_detail_em(params)
+    temp_df = stock_detail_em(params)
     temp_df.rename(
         columns={
             "SECURITY_CODE": "代码",
@@ -88,5 +94,42 @@ def stock_management_increase_detail_em() -> pd.DataFrame:
     )
     print(temp_df)
     return temp_df
+
+
+def stock_fenshi_detail(code) -> pd.DataFrame:
+    url = "http://31.push2.eastmoney.com/api/qt/stock/details/sse"
+    params = {
+        'fields1': 'f1,f2,f3,f4',
+        'fields2': 'f51,f52,f53,f54,f55',
+        'mpi':  2000,
+        'ut': 'bd1d9ddb04089700cf9c27f6f7426281',
+        'fltt':  2,
+        'pos': '-0',
+        'secid': f'0.{code}',
+        'wbp2u': '4097055408292064|0|1|0|web'
+
+    }
+    r = requests.get(url, params=params,stream=True)
+    for line in r.iter_lines(chunk_size=1024):
+        if line:
+            data_json= line.decode('utf-8')[6:] 
+            data_json=json.loads(data_json)
+            temp_df = pd.DataFrame([item.split(",") for item in data_json["data"]["details"]])
+            temp_df.columns=[
+            "时间",
+            "股价",
+            "成交量",
+            '未成交',
+            "主动买卖",
+            ]
+            temp_df['股价'] = pd.to_numeric(temp_df['股价'])
+            temp_df['成交量'] = pd.to_numeric(temp_df['成交量'])
+            return temp_df
+
 if __name__ == '__main__':
-    stock_management_detail()
+    temp_df= stock_fenshi_detail('300033')
+    calc_res=calc_pre_minute_change(temp_df,30)
+    print(calc_res)
+    print(calc_res.loc[calc_res['时间'] >= '09:25:00'])
+    
+    print(calc_res.loc[calc_res['时间'] >= '09:30:57'])
