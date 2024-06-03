@@ -77,12 +77,15 @@ def get_latest_quarter_list(quarter=9):
 
 def calc_pre_minute_change(df,sec):
     volume= df['成交量'].resample(f'{sec}s', label='right', closed='left').sum()
-    df = pd.DataFrame({
+    volume_price= df['成交额'].resample(f'{sec}s', label='right', closed='left').sum()
+    new_df = pd.DataFrame({
     "成交量": volume,
+    '成交额':volume_price
     })
-    df['成交量变化率']=df['成交量'].pct_change()*100
-    df['成交量累计变化'] =df["成交量变化率"].cumsum(axis=0)/100
-    return df
+    new_df['成交量变化率']=new_df['成交量'].pct_change()*100
+    new_df['成交量累计变化'] =new_df["成交量变化率"].cumsum(axis=0)/100
+
+    return new_df
 
 if __name__ == '__main__':
     list = get_latest_quarter_list()

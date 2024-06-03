@@ -4,31 +4,37 @@ import logging
 import os.path
 import sys
 from concurrent.futures import ThreadPoolExecutor,as_completed
+
 cpath_current = os.path.dirname(os.path.dirname(__file__))
 cpath = os.path.abspath(os.path.join(cpath_current))
 sys.path.append(cpath)
 
 import crawling.stock_dfcf as dfcf
+import crawling.stock_ths as ths
 import akshare as ak
 from core.utils.commons import calc_pre_minute_change
 # 更新股东信息
 def fetch_tick_volume():
     try:
-        temp_df = ak.stock_info_a_code_name()
+        temp_df = ths.stock_code()
         temp_df = temp_df[(temp_df["code"].str.startswith('00')|temp_df["code"].str.startswith('30')|temp_df["code"].str.startswith('60')|temp_df["code"].str.startswith('688')) & ~temp_df['name'].str.contains('ST')]
-        result = temp_df.to_dict(orient='records') [:2]
-        print(result)
-        with ThreadPoolExecutor(max_workers=1000) as executor:
+        result = temp_df.to_dict(orient='records') 
+        with ThreadPoolExecutor(max_workers=100) as executor:
             to_do = []
             for res in result:
                 code =res['code']
                 future = executor.submit(fetch_stocks, code)
                 to_do.append(future)
             for future in as_completed(to_do):  # 并发执行
-                f = future.result()
-                temp_df=f['date']
-                calc_res=calc_pre_minute_change(temp_df,60)[:20]
-                print(calc_res)
+                res_future = future.result()
+                temp_df=res_future['date']
+                temp_code=res_future['code']
+                calc_res=calc_pre_minute_change(temp_df,60)[:8]
+                res_df = calc_res[(calc_res['成交量变化率']>0) & (calc_res['成交额'] > 5000000)]
+                if temp_code=='300475':
+                    print(res_df)
+                if len(res_df)>=4:
+                    print(temp_code)
     except Exception as e:
         logging.error(f"fetch_stocks处理异常：{e}")
     return None

@@ -9,6 +9,7 @@ import pydash as _
 import os.path
 import sys
 
+
 cpath_current = os.path.dirname(os.path.dirname(__file__))
 cpath = os.path.abspath(os.path.join(cpath_current))
 sys.path.append(cpath)
@@ -16,6 +17,7 @@ sys.path.append(cpath)
 import pandas as pd
 import core.libs.pywencai as wencai
 from core.utils.commons import get_latest_quarter_list
+from core.constants import ST_STOCK_CODE
 
 
 def stock_ths_base(**kwargs) -> pd.DataFrame:
@@ -95,21 +97,44 @@ def stock_shareholder_history() -> pd.DataFrame:
     return temp_df
 
 
+def st_stock_code() -> pd.DataFrame:
+    """
+    同花顺问财
+    https://www.iwencai.com/stockpick/load-data
+    """
+    query='一年内被立案调查公司'
+    temp_df = stock_ths_base(query=query,loop=True)
+    new_df = pd.DataFrame({
+        'code':temp_df['code'],
+        'name':temp_df['股票简称'],
+        })
+    # new_df = new_df.dropna() 
+    return new_df
 def stock_code() -> pd.DataFrame:
     """
     同花顺问财
     https://www.iwencai.com/stockpick/load-data
     """
-    query='非st，非北交所，上市天数大于20，股票流通市值大于10亿且股票流通市值小于800亿，股价涨幅大于0%'
-    temp_df = stock_ths_base(query=query,loop=True)
     time = arrow.now().format("YYYYMMDD")
-    new_df = pd.DataFrame({
-        'code':temp_df['code'],
-        'name':temp_df['股票简称'],
-        'price':temp_df[f'涨跌幅:前复权[{time}]'],
-        })
-    new_df = new_df.dropna() #舍弃空值
-    return new_df
+    path = f'{cpath}/stock_date/daily_stock/{time}.csv'
+    try:
+        csvframe = pd.read_csv(path,dtype={'code': str,})
+        return csvframe
+    except Exception as e:
+        df_st_code = pd.DataFrame({'code': ST_STOCK_CODE}) 
+        st_stock = st_stock_code()
+        new_st_stock=pd.concat([df_st_code] + [st_stock], ignore_index=True)
+        query='非st，非北交所，上市天数大于20，股票流通市值大于10亿且股票流通市值小于800亿，股价涨幅大于0%，股价大于2元，五日均换手率大于1.5%，人均持股市值大于5万'
+        temp_df = stock_ths_base(query=query,loop=True)
+        
+        new_df = pd.DataFrame({
+            'code':temp_df['code'],
+            'name':temp_df['股票简称'],
+            'price':temp_df[f'涨跌幅:前复权[{time}]'],
+            })
+        new_df = new_df[~new_df["code"].isin(new_st_stock['code'])]
+        new_df.to_csv(path, mode='w', index=False, header=True, sep=',')
+        return new_df.to_string()  
 
 if __name__ == '__main__':
     stock_code()
