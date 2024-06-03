@@ -104,13 +104,12 @@ def stock_code() -> pd.DataFrame:
     temp_df = stock_ths_base(query=query,loop=True)
     time = arrow.now().format("YYYYMMDD")
     new_df = pd.DataFrame({
-        '股票代码':temp_df['code'],
-        '股票简称':temp_df['股票简称'],
-        '涨跌幅':temp_df[f'涨跌幅:前复权[{time}]'],
+        'code':temp_df['code'],
+        'name':temp_df['股票简称'],
+        'price':temp_df[f'涨跌幅:前复权[{time}]'],
         })
     new_df = new_df.dropna() #舍弃空值
-    print(new_df)
-    return temp_df
+    return new_df
 
 if __name__ == '__main__':
     stock_code()
