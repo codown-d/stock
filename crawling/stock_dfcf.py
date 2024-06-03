@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 
 import json
+import arrow
 import requests
 import pandas as pd
 import os.path
@@ -10,7 +11,7 @@ cpath_current = os.path.dirname(os.path.dirname(__file__))
 cpath = os.path.abspath(os.path.join(cpath_current))
 sys.path.append(cpath)
 
-from core.utils.commons import calc_pre_minute_change, deep_merge_dicts
+from core.utils.commons import calc_pre_minute_change, deep_merge_dicts, gp_type_szsh
 # 东财数据中心基础数据
 
 
@@ -98,6 +99,7 @@ def stock_management_increase_detail_em() -> pd.DataFrame:
 
 def stock_fenshi_detail(code) -> pd.DataFrame:
     url = "http://31.push2.eastmoney.com/api/qt/stock/details/sse"
+    secid = f'0.{code}' if gp_type_szsh(code)=='sz' else f'1.{code}'
     params = {
         'fields1': 'f1,f2,f3,f4',
         'fields2': 'f51,f52,f53,f54,f55',
@@ -105,7 +107,7 @@ def stock_fenshi_detail(code) -> pd.DataFrame:
         'ut': 'bd1d9ddb04089700cf9c27f6f7426281',
         'fltt':  2,
         'pos': '-0',
-        'secid': f'0.{code}',
+        'secid': secid,
         'wbp2u': '4097055408292064|0|1|0|web'
 
     }
@@ -114,22 +116,25 @@ def stock_fenshi_detail(code) -> pd.DataFrame:
         if line:
             data_json= line.decode('utf-8')[6:] 
             data_json=json.loads(data_json)
-            temp_df = pd.DataFrame([item.split(",") for item in data_json["data"]["details"]])
-            temp_df.columns=[
+            temp_df = pd.DataFrame([item.split(",") for item in data_json["data"]["details"]],columns=[
             "时间",
             "股价",
             "成交量",
             '未成交',
             "主动买卖",
-            ]
+            ])
+            temp_df['时间']=pd.to_datetime(temp_df['时间'],format='mixed',dayfirst=True)
             temp_df['股价'] = pd.to_numeric(temp_df['股价'])
             temp_df['成交量'] = pd.to_numeric(temp_df['成交量'])
+            res_df = temp_df.loc[temp_df['时间'] >= '09:30:00']
+            temp_df=res_df.set_index(keys='时间')
+            print(temp_df)
             return temp_df
 
 if __name__ == '__main__':
-    temp_df= stock_fenshi_detail('300033')
-    calc_res=calc_pre_minute_change(temp_df,30)
+    temp_df= stock_fenshi_detail('300475')
+    calc_res=calc_pre_minute_change(temp_df,60)
     print(calc_res)
-    print(calc_res.loc[calc_res['时间'] >= '09:25:00'])
+    # print(calc_res.loc[calc_res['时间'] >= '09:25:00'])
     
-    print(calc_res.loc[calc_res['时间'] >= '09:30:57'])
+    # print(calc_res.loc[calc_res['时间'] >= '09:30:57'])

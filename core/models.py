@@ -9,10 +9,11 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 from core.utils.database import BaseMixin
 
-class StockIndicators(db.Model):
+class StockIndicators(BaseMixin,db.Model):
     __tablename__ = "stock_indicators"
-    date = db.Column(db.String(32), primary_key=True)  # 用户编号
-    code = db.Column(db.String(8), primary_key=True)  # 用户编号
+    id = db.Column(db.String(50),primary_key=True,nullable=False)  # 用户编号
+    date = db.Column(db.String(32))  # 用户编号
+    code = db.Column(db.String(8))  # 用户编号
     name = db.Column(db.String(32), nullable=False)  # 用户编号
     close = db.Column(db.Float, nullable=False)  # 收盘价
     macd = db.Column(db.Float, nullable=False)
@@ -88,6 +89,28 @@ class StockIndicators(db.Model):
     ene_le = db.Column(db.Float, nullable=False)
     stochrsi_k = db.Column(db.Float, nullable=False)
     stochrsi_d = db.Column(db.Float, nullable=False)
+
+    volume_pre_0=db.Column(db.Integer, nullable=False)
+    volume_pre_1=db.Column(db.Integer, nullable=False)
+    volume_pre_2=db.Column(db.Integer, nullable=False)
+    volume_pre_3=db.Column(db.Integer, nullable=False)
+    volume_pre_4=db.Column(db.Integer, nullable=False)
+    volume_pre_5=db.Column(db.Integer, nullable=False)
+    volume_pre_6=db.Column(db.Integer, nullable=False)
+    volume_pre_7=db.Column(db.Integer, nullable=False)
+    volume_pre_8=db.Column(db.Integer, nullable=False)
+    volume_pre_9=db.Column(db.Integer, nullable=False)
+    volume_pre_10=db.Column(db.Integer, nullable=False)
+    volume_pre_11=db.Column(db.Integer, nullable=False)
+    volume_pre_12=db.Column(db.Integer, nullable=False)
+    volume_pre_13=db.Column(db.Integer, nullable=False)
+    volume_pre_14=db.Column(db.Integer, nullable=False)
+    volume_pre_15=db.Column(db.Integer, nullable=False)
+    volume_pre_16=db.Column(db.Integer, nullable=False)
+    volume_pre_17=db.Column(db.Integer, nullable=False)
+    volume_pre_18=db.Column(db.Integer, nullable=False)
+    volume_pre_19=db.Column(db.Integer, nullable=False)
+    
 
 class DFCFStockInfo(BaseMixin,db.Model):
     __tablename__ = "stock_info"
@@ -179,22 +202,3 @@ class Shareholder(db.Model):
             item = data[x]
             self.insert_or_update_base(self,item)
         db.session.commit()
-
-class CountStockBull(db.Model):
-    __tablename__ = "stock_stock_bull"
-    code = db.Column(db.String(50),primary_key=True) 
-    name = db.Column(db.String(50),nullable=False)  
-    price = db.Column(db.Float,nullable=True)  
-    shareholder_chigu_shizhi = db.Column(db.Float,nullable=True) 
-    quarter_0 = db.Column(db.Integer,nullable=True)  
-    quarter_1 = db.Column(db.Integer,nullable=True)  
-    quarter_2 = db.Column(db.Integer,nullable=True)  
-    quarter_3 = db.Column(db.Integer,nullable=True)  
-    quarter_4 = db.Column(db.Integer,nullable=True)  
-    quarter_5 = db.Column(db.Integer,nullable=True)  
-    quarter_6 = db.Column(db.Integer,nullable=True)  
-    quarter_7 = db.Column(db.Integer,nullable=True)  
-    quarter_8 = db.Column(db.Integer,nullable=True)  
-    quarter_9 = db.Column(db.Integer,nullable=True)  
-    shareholder_level_1 = db.Column(db.Float,nullable=True)  
-    shareholder_level_2 = db.Column(db.Float,nullable=True)  
