@@ -14,10 +14,9 @@ from core.utils.commons import calc_pre_minute_change
 # 更新股东信息
 def fetch_tick_volume():
     try:
-        
         temp_df = ak.stock_info_a_code_name()
         temp_df = temp_df[(temp_df["code"].str.startswith('00')|temp_df["code"].str.startswith('30')|temp_df["code"].str.startswith('60')|temp_df["code"].str.startswith('688')) & ~temp_df['name'].str.contains('ST')]
-        result = temp_df.to_dict(orient='records') 
+        result = temp_df.to_dict(orient='records') [:2]
         print(result)
         with ThreadPoolExecutor(max_workers=1000) as executor:
             to_do = []

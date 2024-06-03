@@ -91,6 +91,60 @@ def stock_shareholder_history() -> pd.DataFrame:
     print(temp_df)
     return temp_df
 
+
+def stock_code() -> pd.DataFrame:
+    """
+    同花顺问财
+    https://www.iwencai.com/stockpick/load-data
+    """
+    query='非st，非北交所，上市天数大于20，股票流通市值大于10亿且股票流通市值小于800亿，股价涨幅大于0%'
+    temp_df = stock_ths_base(query=query,loop=True)
+    new_column=[]
+    for col in temp_df.columns:
+        pattern = r"\[(.*?)\]"
+        result = re.findall(pattern, col)
+        if(len(result)):
+            new_column.append(result[0])
+        else:
+            new_column.append(col)
+    temp_df.columns=new_column
+    quarter_list=get_latest_quarter_list()
+    time = arrow.now().format("YYYYMMDD")
+    temp_df=temp_df[['code', '股票简称', '最新价','最新户均持股市值',f'{time}']+quarter_list]
+    temp_df.columns=[
+            "code",
+            "name",
+            "price",
+            'shareholder_chigu_shizhi',
+            "quarter_0",
+            "quarter_1",
+            "quarter_2",
+            "quarter_3",
+            "quarter_4",
+            'quarter_5',
+            'quarter_6',
+            'quarter_7',
+            'quarter_8',
+            'quarter_9',
+        ]
+    temp_df['price'] = pd.to_numeric(temp_df['price'])
+    temp_df['shareholder_chigu_shizhi'] = pd.to_numeric(temp_df['shareholder_chigu_shizhi'])
+    temp_df['quarter_0'] = pd.to_numeric(temp_df['quarter_0'])
+    temp_df['quarter_1'] = pd.to_numeric(temp_df['quarter_1'])
+    temp_df['quarter_2'] = pd.to_numeric(temp_df['quarter_2'])
+    temp_df['quarter_3'] = pd.to_numeric(temp_df['quarter_3'])
+    temp_df['quarter_4'] = pd.to_numeric(temp_df['quarter_4'])
+    temp_df['quarter_5'] = pd.to_numeric(temp_df['quarter_5'])
+    temp_df['quarter_6'] = pd.to_numeric(temp_df['quarter_6'])
+    temp_df['quarter_7'] = pd.to_numeric(temp_df['quarter_7'])
+    temp_df['quarter_8'] = pd.to_numeric(temp_df['quarter_8'])
+    temp_df['quarter_9'] = pd.to_numeric(temp_df['quarter_9'])
+    temp_df['shareholder_level_1'] = (temp_df['quarter_0']-temp_df['quarter_9'])/temp_df['quarter_9']*100
+    temp_df['shareholder_level_2'] = (temp_df['quarter_0']-temp_df['quarter_5'])/temp_df['quarter_5']*100
+    temp_df = temp_df.dropna() 
+    print(temp_df)
+    return temp_df
+
 if __name__ == '__main__':
     stock_shareholder_history()
 
