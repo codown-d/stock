@@ -34,7 +34,7 @@ def main():
     with app.app_context():
         db.init_app(app)
         db.create_all()
-        fetch_tick_volume()
+        # fetch_tick_volume()
     logging.info("######## 完成任务, 使用时间: %s 秒 #######" % (time.time() - start))
 
 # main函数入口

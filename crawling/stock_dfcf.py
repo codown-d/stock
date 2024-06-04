@@ -5,6 +5,7 @@ import json
 import arrow
 import requests
 import pandas as pd
+import numpy as np
 import os.path
 import sys
 cpath_current = os.path.dirname(os.path.dirname(__file__))
@@ -126,15 +127,16 @@ def stock_fenshi_detail(code) -> pd.DataFrame:
             temp_df['时间']=pd.to_datetime(temp_df['时间'],format='mixed',dayfirst=True)
             temp_df['股价'] = pd.to_numeric(temp_df['股价'])
             temp_df['成交量'] = pd.to_numeric(temp_df['成交量'])
-            temp_df['成交额'] = temp_df['成交量']*temp_df['股价']*100
-            res_df = temp_df.loc[temp_df['时间'] >= '09:30:00']
-            temp_df=res_df.set_index(keys='时间')
+            temp_df['成交额'] = np.around(temp_df['成交量']*temp_df['股价']*100,2)
+            # res_df = temp_df.loc[temp_df['时间'] >= '09:30:00']
+            # temp_df=temp_df.set_index(keys='时间')
+            print(temp_df)
             return temp_df
 
 if __name__ == '__main__':
     temp_df= stock_fenshi_detail('603650')
-    calc_res=calc_pre_minute_change(temp_df,60)
-    print(calc_res.to_string())
+    # calc_res=calc_pre_minute_change(temp_df,60)
+    # print(calc_res.to_string())
     # print(calc_res.loc[calc_res['时间'] >= '09:25:00'])
     
     # print(calc_res.loc[calc_res['时间'] >= '09:30:57'])
