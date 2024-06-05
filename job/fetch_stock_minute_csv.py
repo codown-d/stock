@@ -31,6 +31,7 @@ def fetch_stocks_all_code():
     except Exception as e:
         logging.error(f"fetch_stocks处理异常：{e}")
     return None
+
 def fetch_trade_day(n):
     try:
         time = arrow.now().format("YYYY-MM-DD")
@@ -44,6 +45,7 @@ def fetch_trade_day(n):
         logging.error(f"fetch_stocks处理异常：{e}")
     return None
 # 历史数据
+
 def fetch_stocks_dfcf(code):
     try:
         stock_zh_a_hist_min_em_df = ak.stock_zh_a_hist_min_em(symbol=code, start_date="2024-05-09 09:30:00", end_date="2024-05-09 15:00:00", period="1", adjust="")
@@ -52,6 +54,7 @@ def fetch_stocks_dfcf(code):
     except Exception as e:
         logging.error(f"fetch_stocks处理异常：{e}")
     return None
+
 def fetch_stocks_xlcj(code):
     try:
         stock_zh_a_minute_df = ak.stock_zh_a_minute(symbol=code, period='1', adjust="qfq")

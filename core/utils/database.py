@@ -23,10 +23,11 @@ def update_orm_object(orm_object, data):
 class BaseMixin():
     @classmethod
     def insert_or_update_base(self,stockData):
-        id=stockData['id']
-        existing_stock = self.query.filter_by(id=id).first()
+        ID=stockData['ID']
+        existing_stock = self.query.filter_by(ID=ID).first()
         if existing_stock:
-            update_orm_object(existing_stock, stockData)
+            pass
+            # update_orm_object(existing_stock, stockData)
         else:
             stock = self(**stockData)
             db.session.add(stock)

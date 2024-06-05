@@ -12,6 +12,7 @@ cpath_current = os.path.dirname(os.path.dirname(__file__))
 cpath = os.path.abspath(os.path.join(cpath_current))
 sys.path.append(cpath)
 
+import akshare as ak
 from core.utils.commons import calc_pre_minute_change, deep_merge_dicts, gp_type_szsh
 # 东财数据中心基础数据
 
@@ -97,7 +98,7 @@ def stock_management_increase_detail_em() -> pd.DataFrame:
     print(temp_df)
     return temp_df
 
-
+#实时分时分钟数据
 def stock_fenshi_detail(code) -> pd.DataFrame:
     url = "http://31.push2.eastmoney.com/api/qt/stock/details/sse"
     secid = f'0.{code}' if gp_type_szsh(code)=='sz' else f'1.{code}'
@@ -133,8 +134,13 @@ def stock_fenshi_detail(code) -> pd.DataFrame:
             print(temp_df)
             return temp_df
 
+#历史分时分钟数据
+def stock_history_fenshi_detail(symbol,start_date,end_date) -> pd.DataFrame:
+    temp_df = ak.stock_zh_a_hist_min_em(symbol=symbol, start_date=start_date, end_date=end_date, period="1", adjust="")
+    return temp_df
+
 if __name__ == '__main__':
-    temp_df= stock_fenshi_detail('603650')
+    stock_history_fenshi_detail('603650',start_date="2024-06-04 09:30:00", end_date="2024-06-04 15:00:00")
     # calc_res=calc_pre_minute_change(temp_df,60)
     # print(calc_res.to_string())
     # print(calc_res.loc[calc_res['时间'] >= '09:25:00'])

@@ -2,7 +2,7 @@
 
 import os.path
 import sys
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String,Date
 
 cpath_current = os.path.dirname(os.path.dirname(__file__))
 cpath = os.path.abspath(os.path.join(cpath_current))
@@ -11,17 +11,18 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 from core.utils.database import BaseMixin
 
-class StockTimePrice(db.Model):
+class StockTimePrice(BaseMixin,db.Model):
     __tablename__ = "stock_time_price"
-    时间 = Column(db.Time,primary_key=True,nullable=False)  
-    股票代码 = Column(String(80),primary_key=True,nullable=False)
-    股票名称 = Column(String(80),nullable=False)
-    开盘价 = Column(db.Float,nullable=False)  
-    最高价 = Column(db.Float,nullable=False)  
-    收盘价 = Column(db.Float,nullable=False)  
+    ID = Column(String(80),primary_key=True,nullable=False)  
+    时间 = Column(db.DateTime,nullable=False)  
+    代码 = Column(String(80),nullable=False)
+    开盘 = Column(db.Float,nullable=False)
+    收盘 = Column(db.Float,nullable=False)    
+    最高 = Column(db.Float,nullable=False)  
+    最低 = Column(db.Float,nullable=False)  
     成交量 = Column(db.Integer,nullable=False)  
-    def __init__(self, param1, param2):
-        print(self, param1, param2)
+    成交额 = Column(db.Float,nullable=False)  
+    均价 = Column(db.Float,nullable=False)  
 
 class DFCFStockInfo(BaseMixin,db.Model):
     __tablename__ = "stock_info"
@@ -114,9 +115,9 @@ class Shareholder(db.Model):
             self.insert_or_update_base(self,item)
         db.session.commit()
 
-def get_stock_model(cid, cid_class_dict={}):
-    if cid not in cid_class_dict:
-        cls_name = table_name = f'stock_{cid}'
-        cls = type(cls_name, (StockIndicators, ), {'__tablename__': table_name  })
-        cid_class_dict[cid] = cls
-    return cid_class_dict[cid]
+# def get_stock_model(cid, cid_class_dict={}):
+#     if cid not in cid_class_dict:
+#         cls_name = table_name = f'stock_{cid}'
+#         cls = type(cls_name, (StockIndicators, ), {'__tablename__': table_name  })
+#         cid_class_dict[cid] = cls
+#     return cid_class_dict[cid]

@@ -14,9 +14,7 @@ cpath_current = os.path.dirname(os.path.dirname(__file__))
 cpath = os.path.abspath(os.path.join(cpath_current))
 print(cpath)
 sys.path.append(cpath)
-from job.fetch_shareholder import fetch_shareholder
-from job.fetch_stock_surveil import fetch_tick_vol
-from job.fetch_stock_tick_volume import fetch_tick_volume
+from job.get_stock_volume import  stock_tick_volume
 from core.models import db
 from config import config_map
 logging.basicConfig(filename="logs/log", filemode="w", format="%(asctime)s %(name)s:%(levelname)s:%(message)s", datefmt="%d-%M-%Y %H:%M:%S", level=logging.DEBUG)
@@ -33,8 +31,7 @@ def main():
     # 获取每日最新股票数据
     with app.app_context():
         db.init_app(app)
-        db.create_all()
-        # fetch_tick_volume()
+        stock_tick_volume()
     logging.info("######## 完成任务, 使用时间: %s 秒 #######" % (time.time() - start))
 
 # main函数入口
