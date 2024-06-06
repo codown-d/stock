@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 
+import logging
 import os.path
 import sys
 from sqlalchemy import Column, Integer, String,Date
@@ -23,6 +24,20 @@ class StockTimePrice(BaseMixin,db.Model):
     成交量 = Column(db.Integer,nullable=False)  
     成交额 = Column(db.Float,nullable=False)  
     均价 = Column(db.Float,nullable=False)  
+    # def save_data(self,data, pg_con=None):
+    #     try:
+    #         pg_con = pg_con if pg_con else g.pg_db
+    #         pg_con.execute(
+    #             StockTimePrice.__table__.insert(),
+    #             data
+    #         )
+    #         pg_con.commit()
+    #         return True
+    #     except Exception as e:
+    #         logging.error('class path: %s;function name: %s;error message:%s' % (
+    #             __name__, sys._getframe().f_code.co_name, e.message), exc_info=True)
+    #         pg_con.rollback()
+    #         return False
 
 class DFCFStockInfo(BaseMixin,db.Model):
     __tablename__ = "stock_info"

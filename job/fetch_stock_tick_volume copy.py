@@ -23,7 +23,7 @@ def stock_tick_volume():
     try:
         temp_df = stock.stock_code()
         result = temp_df.to_dict(orient='records') 
-        with ThreadPoolExecutor(max_workers=100) as executor:
+        with ThreadPoolExecutor(max_workers=1000) as executor:
             to_do = []
             for res in result:
                 code =res['code']
