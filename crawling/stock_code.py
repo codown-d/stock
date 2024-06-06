@@ -29,7 +29,7 @@ def stock_code():
                            temp_df["code"].str.startswith('688'))& 
                            ~temp_df["名称"].str.contains('ST')]
         # temp_df=temp_df[temp_df['最新价']]
-        print(temp_df[temp_df["code"] == '603381'])
+        # print(temp_df[temp_df["code"] == '603381'])
         #
         temp_df = temp_df.dropna(axis='index', how='any')
         new_df = pd.DataFrame({
