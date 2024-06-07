@@ -102,6 +102,8 @@ def handle_vol(time=arrow.now().format("YYYY-MM-DD")):
     code = grouped.size().index.to_list()[:2]
     results = run(partial(calc_stocks, grouped=grouped), code)
     for res in results:
+        # df['成交量'].resample(f'1min', label='right', closed='left').sum()
+        res.between_time('09:30:00', '10:35:00')
         print(res)
 def calc_stocks(code,grouped):
     try:
