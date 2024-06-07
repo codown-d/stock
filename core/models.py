@@ -135,15 +135,11 @@ class StockIndicators(BaseMixin,db.Model):
     date = Column(db.DateTime,primary_key=True,nullable=False)  
     code = Column(String(10),primary_key=True,nullable=False)  
     name = Column(String(8),nullable=False)
+    vol = Column(Float,nullable=False)
     macd = Column(Float,nullable=False)
     dif = Column(Float,nullable=False)
     dea = Column(Float,nullable=False)
-    vol = Column(Float,nullable=False)
-    vol_10m =Column(Float,nullable=False)
-    vol_20m =Column(Float,nullable=False)
-    vol_30m =Column(Float,nullable=False)
-    vol_60m =Column(Float,nullable=False)
-    h_vol =Column(Integer,nullable=False)
+    cci = Column(Float,nullable=False)
 
 
 

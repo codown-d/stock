@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+from datetime import datetime
 import logging
 import os.path
 import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import arrow
 import pandas as pd
+from sqlalchemy import and_
 from tqdm import tqdm
 import math
+from functools import partial
 
 cpath_current = os.path.dirname(os.path.dirname(__file__))
 cpath = os.path.abspath(os.path.join(cpath_current))
@@ -18,8 +21,7 @@ from core.models import StockTimePrice
 import crawling.stock_code as stock
 from core.models import db
 import tempfile
-# 更新股东信息
-
+# 更新历史分时成交量数据
 def batch_tasks_volume():
     try:
         temp_df = stock.stock_code()
@@ -87,9 +89,32 @@ def fetch_stocks(code,time=arrow.now().format("YYYY-MM-DD")):
             df = pd.DataFrame([code],columns=['error_code'])
             df.to_csv(err_coor_path, mode='w', index=False, header=True, sep=',')
         return {'data':None,'code':code}
+
+#生成成交量指标
+
+def handle_vol(time=arrow.now().format("YYYY-MM-DD")):
+    start_date = datetime(2024, 6, 6,9, 30, 00)
+    end_date = datetime(2024,6, 6,10, 30, 00)
+    print(time,StockTimePrice.时间.between(start_date, end_date),end_date)
+    stock = StockTimePrice.query.filter(StockTimePrice.时间.between(start_date, end_date)).order_by(StockTimePrice.代码 and StockTimePrice.时间).all()
+    df = pd.DataFrame([(r.ID, r.时间, r.代码, r.开盘,r.收盘,r.最高,r.最低,r.成交量,r.成交额,r.均价) for r in stock], columns=['ID', '时间', '代码', '开盘','收盘','最高','最低','成交量','成交额','均价'])
+    grouped =  df.groupby('代码')
+    code = grouped.size().index.to_list()[:2]
+    results = run(partial(calc_stocks, grouped=grouped), code)
+    for res in results:
+        print(res)
+def calc_stocks(code,grouped):
+    try:
+        temp_df = grouped.get_group(code).reset_index(drop=True)
+        temp_df.sort_values("时间",inplace=True,ascending=True)
+        return temp_df
+    except Exception as e:
+        logging.error(f"calc_stocks处理异常：{e}{code}")
+        return False
+
 # main函数入口
 if __name__ == '__main__':
     # batch_tasks_volume('123')
-    # stock_tick_volume()
-    res=fetch_stocks('000001')
-    print(res['data'])
+    handle_vol()
+    # res=fetch_stocks('000001')
+    # print(res['data'])
