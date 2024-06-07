@@ -7,3 +7,5 @@ node_modules
 node_modules/**
 migrations
 migrations/**
+stock_date
+stock_date/**
