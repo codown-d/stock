@@ -7,8 +7,7 @@ from tqdm import tqdm
 cpath_current = os.path.dirname(os.path.dirname(__file__))
 cpath = os.path.abspath(os.path.join(cpath_current))
 sys.path.append(cpath)
-from core.models import db, get_stock_model
-from job.fetch_stock_Info import get_stock_code
+from core.models import db
 from config import config_map
 app = Flask(__name__)
 

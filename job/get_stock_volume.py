@@ -66,13 +66,13 @@ def stock_tick_volume(code_list):
         logging.error(f"stock_tick_volume处理异常：{e}")
     return None
 def run(f, my_iter):
-    with ThreadPoolExecutor(max_workers=4) as executor:
+    with ThreadPoolExecutor(max_workers=8) as executor:
         results = list(tqdm(executor.map(f, my_iter), total=len(my_iter)))
     return results
 def fetch_stocks(code,time=arrow.now().format("YYYY-MM-DD")):
     
     err_coor_path=f'{cpath}/stock_date/{time}_error_code.csv'
-    time='2024-06-03'
+    time='2024-06-05'
     try:
         temp_df = dfcf.stock_history_fenshi_detail(code,f"{time} 09:25:00", f"{time} 15:00:00")
         return {'data':temp_df,'code':code}
@@ -89,7 +89,7 @@ def fetch_stocks(code,time=arrow.now().format("YYYY-MM-DD")):
         return {'data':None,'code':code}
 # main函数入口
 if __name__ == '__main__':
-    batch_tasks_volume('123')
+    # batch_tasks_volume('123')
     # stock_tick_volume()
-    # res=fetch_stocks('000001')
-    # print(res['data'])
+    res=fetch_stocks('000001')
+    print(res['data'])

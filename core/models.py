@@ -3,7 +3,7 @@
 import logging
 import os.path
 import sys
-from sqlalchemy import Column, Integer, String,Date
+from sqlalchemy import Column, Integer, String,Date,Float
 
 cpath_current = os.path.dirname(os.path.dirname(__file__))
 cpath = os.path.abspath(os.path.join(cpath_current))
@@ -14,9 +14,9 @@ from core.utils.database import BaseMixin
 
 class StockTimePrice(BaseMixin,db.Model):
     __tablename__ = "stock_time_price"
-    ID = Column(String(80),primary_key=True,nullable=False)  
+    ID = Column(String(40),primary_key=True,nullable=False)  
     时间 = Column(db.DateTime,nullable=False)  
-    代码 = Column(String(80),nullable=False)
+    代码 = Column(String(10),nullable=False)
     开盘 = Column(db.Float,nullable=False)
     收盘 = Column(db.Float,nullable=False)    
     最高 = Column(db.Float,nullable=False)  
@@ -24,28 +24,15 @@ class StockTimePrice(BaseMixin,db.Model):
     成交量 = Column(db.Integer,nullable=False)  
     成交额 = Column(db.Float,nullable=False)  
     均价 = Column(db.Float,nullable=False)  
-    # def save_data(self,data, pg_con=None):
-    #     try:
-    #         pg_con = pg_con if pg_con else g.pg_db
-    #         pg_con.execute(
-    #             StockTimePrice.__table__.insert(),
-    #             data
-    #         )
-    #         pg_con.commit()
-    #         return True
-    #     except Exception as e:
-    #         logging.error('class path: %s;function name: %s;error message:%s' % (
-    #             __name__, sys._getframe().f_code.co_name, e.message), exc_info=True)
-    #         pg_con.rollback()
-    #         return False
+
 
 class DFCFStockInfo(BaseMixin,db.Model):
     __tablename__ = "stock_info"
-    id = db.Column(db.String(50),primary_key=True,nullable=False)  # 用户编号
-    date = db.Column(db.String(50),nullable=False)  # 日期
-    f12 = db.Column(db.String(50), nullable=False)# 代码
-    f14 = db.Column(db.String(50), nullable=False)# 名称
-    f2 = db.Column(db.Float and db.String(50))  # 最新价
+    id = db.Column(db.String(40),primary_key=True,nullable=False)  # 用户编号
+    date = db.Column(db.String(30),nullable=False)  # 日期
+    f12 = db.Column(db.String(10), nullable=False)# 代码
+    f14 = db.Column(db.String(8), nullable=False)# 名称
+    f2 = db.Column(db.Float)  # 最新价
     f3 = db.Column(db.Float, nullable=False) # 涨跌幅
     f4 = db.Column(db.Float, nullable=False) # 涨跌额
     f5 = db.Column(db.Float, nullable=False) # 成交量
@@ -87,8 +74,8 @@ class DFCFStockInfo(BaseMixin,db.Model):
 
 class Shareholder(db.Model):
     __tablename__ = "stock_shareholder"
-    code = db.Column(db.String(50),primary_key=True)  # 股票代码
-    name = db.Column(db.String(50),nullable=False)  # 股票名称
+    code = db.Column(db.String(10),primary_key=True)  # 股票代码
+    name = db.Column(db.String(8),nullable=False)  # 股票名称
     price = db.Column(db.Float,nullable=True)  # 最新价格
     shareholder_chigu_shizhi = db.Column(db.Float,nullable=True)  # 最新户均持股市值
     quarter_0 = db.Column(db.Integer,nullable=True)  
@@ -129,6 +116,37 @@ class Shareholder(db.Model):
             item = data[x]
             self.insert_or_update_base(self,item)
         db.session.commit()
+
+
+class StockSummaryVolume(BaseMixin,db.Model):
+    __tablename__ = "stock_summary_volume"
+    id = Column(Integer,primary_key=True,nullable=False)  
+    code = Column(String(10),nullable=False)  
+    name = Column(String(8),nullable=False)
+    vol_5m =Column(Float,nullable=False)
+    vol_10m =Column(Float,nullable=False)
+    vol_20m =Column(Float,nullable=False)
+    vol_30m =Column(Float,nullable=False)
+    vol_60m =Column(Float,nullable=False)
+    h_vol =Column(Integer,nullable=False)
+
+class StockIndicators(BaseMixin,db.Model):
+    __tablename__ = "stock_indicators"
+    date = Column(db.DateTime,primary_key=True,nullable=False)  
+    code = Column(String(10),primary_key=True,nullable=False)  
+    name = Column(String(8),nullable=False)
+    macd = Column(Float,nullable=False)
+    dif = Column(Float,nullable=False)
+    dea = Column(Float,nullable=False)
+    vol = Column(Float,nullable=False)
+    vol_10m =Column(Float,nullable=False)
+    vol_20m =Column(Float,nullable=False)
+    vol_30m =Column(Float,nullable=False)
+    vol_60m =Column(Float,nullable=False)
+    h_vol =Column(Integer,nullable=False)
+
+
+
 
 # def get_stock_model(cid, cid_class_dict={}):
 #     if cid not in cid_class_dict:

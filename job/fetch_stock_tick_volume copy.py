@@ -14,8 +14,7 @@ sys.path.append(cpath)
 import crawling.stock_dfcf as dfcf
 import crawling.stock_ths as ths
 import akshare as ak
-from core.utils.commons import calc_pre_minute_change
-from core.models import StockTimePrice, get_stock_model
+from core.models import StockTimePrice
 from core.models import db
 import crawling.stock_code as stock
 # 更新股东信息
