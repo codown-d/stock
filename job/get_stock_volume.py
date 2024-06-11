@@ -102,14 +102,16 @@ def handle_vol(time=arrow.now().format("YYYY-MM-DD")):
     code = grouped.size().index.to_list()[:2]
     results = run(partial(calc_stocks, grouped=grouped), code)
     for res in results:
+        code = res['code']
+        temp_df = res['data']
         # df['成交量'].resample(f'1min', label='right', closed='left').sum()
-        res.between_time('09:30:00', '10:35:00')
-        print(res)
+        # res.between_time('09:30:00', '10:35:00')
+        print(code,temp_df)
 def calc_stocks(code,grouped):
     try:
         temp_df = grouped.get_group(code).reset_index(drop=True)
         temp_df.sort_values("时间",inplace=True,ascending=True)
-        return temp_df
+        return {'code':code,'data':temp_df}
     except Exception as e:
         logging.error(f"calc_stocks处理异常：{e}{code}")
         return False
