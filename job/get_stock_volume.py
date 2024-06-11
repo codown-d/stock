@@ -12,6 +12,8 @@ from tqdm import tqdm
 import math
 from functools import partial
 
+from indicator import talib_MACD
+
 cpath_current = os.path.dirname(os.path.dirname(__file__))
 cpath = os.path.abspath(os.path.join(cpath_current))
 sys.path.append(cpath)
@@ -21,6 +23,8 @@ from core.models import StockTimePrice
 import crawling.stock_code as stock
 from core.models import db
 import tempfile
+import numpy as np
+import matplotlib.pyplot as plt
 # 更新历史分时成交量数据
 def batch_tasks_volume():
     try:
@@ -114,19 +118,30 @@ def handle_vol():
     df = pd.DataFrame([(r.ID, r.时间, r.代码, r.开盘,r.收盘,r.最高,r.最低,r.成交量,r.成交额,r.均价) for r in stock])
     df.columns=['ID', '时间', '代码', '开盘','收盘','最高','最低','成交量','成交额','均价']
     grouped =  df.groupby('代码')
-    code = grouped.size().index.to_list()[:2]
+    code = grouped.size().index.to_list()[:1]
     results = run(partial(calc_stocks, grouped=grouped), code)
     for res in results:
-        h_60=res[['成交量','成交额']].resample(rule = '30min',label='right', closed='left').sum()
-    #     # df['成交量'].resample(f'1min', label='right', closed='left').sum()
-    #     res.between_time('09:30:00', '10:35:00')
-        print(res,h_60)
+        code = res['code']
+        temp_df = res['data']
+        macd, macdsignal, macdhist = talib_MACD(df_close_data=temp_df['成交量'])
+        # df['成交量'].resample(f'1min', label='right', closed='left').sum()
+        # res.between_time('09:30:00', '10:35:00')
+        x = temp_df['时间'].to_list()
+        vol = temp_df['成交量'].to_list()
+        # print(type(macd),type(temp_df['成交量']))
+        macd = macd.to_list()
+        macdsignal =macdsignal.to_list()
+        macdhist = macdhist.to_list()
+        # plt.plot(x, vol, color='blue', )
+        plt.plot(x, macd, color='#00ff00', )
+        plt.plot(x, macdsignal, color='#0f0f0f',)
+        plt.plot(x, macdhist, color='#f0f0f0', )
+        plt.show()
 def calc_stocks(code,grouped):
     try:
-        temp_df = grouped.get_group(code).set_index('时间',drop=True)
-        # temp_df.sort_values("时间",inplace=True,ascending=True)
-        
-        return temp_df
+        temp_df = grouped.get_group(code).reset_index(drop=True)
+        temp_df.sort_values("时间",inplace=True,ascending=True)
+        return {'code':code,'data':temp_df}
     except Exception as e:
         logging.error(f"calc_stocks处理异常：{e}{code}")
         return False
