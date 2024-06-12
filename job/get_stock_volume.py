@@ -118,25 +118,29 @@ def handle_vol():
     df = pd.DataFrame([(r.ID, r.时间, r.代码, r.开盘,r.收盘,r.最高,r.最低,r.成交量,r.成交额,r.均价) for r in stock])
     df.columns=['ID', '时间', '代码', '开盘','收盘','最高','最低','成交量','成交额','均价']
     grouped =  df.groupby('代码')
+    print(grouped)
     code = grouped.size().index.to_list()[:1]
     results = run(partial(calc_stocks, grouped=grouped), code)
     for res in results:
-        code = res['code']
+    #     code = res['code']
         temp_df = res['data']
-        macd, macdsignal, macdhist = talib_MACD(df_close_data=temp_df['成交量'])
-        # df['成交量'].resample(f'1min', label='right', closed='left').sum()
-        # res.between_time('09:30:00', '10:35:00')
-        x = temp_df['时间'].to_list()
-        vol = temp_df['成交量'].to_list()
-        # print(type(macd),type(temp_df['成交量']))
-        macd = macd.to_list()
-        macdsignal =macdsignal.to_list()
-        macdhist = macdhist.to_list()
-        # plt.plot(x, vol, color='blue', )
-        plt.plot(x, macd, color='#00ff00', )
-        plt.plot(x, macdsignal, color='#0f0f0f',)
-        plt.plot(x, macdhist, color='#f0f0f0', )
-        plt.show()
+        print(temp_df['成交量'].values)
+        print(temp_df['收盘'].values)
+        macd, macdsignal, macdhist = talib_MACD(df_close_data=temp_df['收盘'].values)
+        print(str(macd))
+    #     # df['成交量'].resample(f'1min', label='right', closed='left').sum()
+    #     # res.between_time('09:30:00', '10:35:00')
+    #     x = temp_df['时间'].to_list()
+    #     vol = temp_df['成交量'].to_list()
+    #     # print(type(macd),type(temp_df['成交量']))
+    #     macd = macd.to_list()
+    #     macdsignal =macdsignal.to_list()
+    #     macdhist = macdhist.to_list()
+    #     # plt.plot(x, vol, color='blue', )
+    #     plt.plot(x, macd, color='#00ff00', )
+    #     plt.plot(x, macdsignal, color='#0f0f0f',)
+    #     plt.plot(x, macdhist, color='#f0f0f0', )
+    #     plt.show()
 def calc_stocks(code,grouped):
     try:
         temp_df = grouped.get_group(code).reset_index(drop=True)

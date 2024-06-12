@@ -1,10 +1,13 @@
 # -*- coding:utf-8 -*-
 import os
+import sys
 import threading
 import time
 import pywifi
 from pywifi import const
-
+cpath_current = os.path.dirname(os.path.dirname(__file__))
+cpath = os.path.abspath(os.path.join(cpath_current))
+sys.path.append(cpath)
 class NewWifi(object):
     def __init__(self, wifiName, filePath):
         self.tag = False
@@ -63,14 +66,17 @@ class NewWifi(object):
 
     def main(self):
         wifiLength = len(self.ifaces)
+        
+        print(wifiLength)
         for i in range(wifiLength):
-        #     if self.tag is False:
+            if self.tag is False:
                 passwordFileList = self.getPasswordFileList(i, wifiLength)
                 # th = threading.Thread(target=self.readPassword, args=(passwordFileList, self.ifaces[i]))
                 # th.start()
-                # print(passwordFileList)
-        # print(wifiLength)
+                print(passwordFileList)
+        print(wifiLength)
 
 if __name__ == '__main__':
-    nw = NewWifi('CMCC-udKg', 'passwordList')  # CMCC-udKg
+    print(cpath_current)
+    nw = NewWifi('CMCC-udKg', f'{cpath_current}/')  # CMCC-udKg
     nw.main()

@@ -1,12 +1,12 @@
 import talib
  
-def macd(close):
-   macdDIFF, macdDEA, macd = talib.MACDEXT(df['close'], fastperiod=12, fastmatype=1, slowperiod=26,    slowmatype=1, signalperiod=9, signalmatype=1)
+def macd(df_vol_data):
+   macdDIFF, macdDEA, macd = talib.MACDEXT(df_vol_data, fastperiod=12, fastmatype=1, slowperiod=26,    slowmatype=1, signalperiod=9, signalmatype=1)
    macd = macd * 2
  
    return (macdDIFF, macdDEA, macd)
 
-def talib_MACD(df_close_data, fastperiod=12, slowperiod=26):
+def macd(df_close_data, fastperiod=12, slowperiod=26):
     """
         talib官方默认参数 fastperiod=12, slowperiod=26,signalperiod=9
         参数:
@@ -18,6 +18,8 @@ def talib_MACD(df_close_data, fastperiod=12, slowperiod=26):
             macdsignal【DEA或DEM】 = 计算macd的signalperiod天的EMA
             macdhist【MACD柱状线】 = macd - macdsignal
     """
-    macd, macdsignal, macdhist = getattr(talib, "MACD")(
-        df_close_data, fastperiod=fastperiod, slowperiod=slowperiod, signalperiod=9)
+    # macd, macdsignal, macdhist = getattr(talib, "MACD")(
+    #     df_close_data, fastperiod=fastperiod, slowperiod=slowperiod, signalperiod=9)
+    
+    macd, macdsignal, macdhist =talib.MACD(df_close_data, fastperiod=fastperiod, slowperiod=slowperiod, signalperiod=9)
     return macd, macdsignal, macdhist
