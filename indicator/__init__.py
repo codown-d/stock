@@ -1,12 +1,12 @@
 import talib
  
-def macd(df_vol_data):
+def talib_MACDEXT(df_vol_data):
    macdDIFF, macdDEA, macd = talib.MACDEXT(df_vol_data, fastperiod=12, fastmatype=1, slowperiod=26,    slowmatype=1, signalperiod=9, signalmatype=1)
    macd = macd * 2
  
    return (macdDIFF, macdDEA, macd)
 
-def macd(df_close_data, fastperiod=12, slowperiod=26):
+def talib_MACD(df_close_data, fastperiod=12, slowperiod=26):
     """
         talib官方默认参数 fastperiod=12, slowperiod=26,signalperiod=9
         参数:
