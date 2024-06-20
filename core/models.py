@@ -120,8 +120,8 @@ class Shareholder(db.Model):
 
 class StockSummaryVolume(BaseMixin,db.Model):
     __tablename__ = "stock_summary_volume"
-    id = Column(Integer,primary_key=True,nullable=False)  
-    code = Column(String(10),nullable=False)  
+    date = Column(db.DateTime,primary_key=True,nullable=False)  
+    code = Column(String(10),primary_key=True,nullable=False)  
     name = Column(String(8),nullable=False)
     vol_5m =Column(Float,nullable=False)
     vol_10m =Column(Float,nullable=False)
