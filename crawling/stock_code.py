@@ -30,7 +30,6 @@ def stock_code():
                            ~temp_df["名称"].str.contains('ST')]
         # temp_df=temp_df[temp_df['最新价']]
         # print(temp_df[temp_df["code"] == '603381'])
-        #
         temp_df = temp_df.dropna(axis='index', how='any')
         new_df = pd.DataFrame({
             'code':temp_df['code'],
@@ -38,7 +37,8 @@ def stock_code():
             })
         new_df = new_df[~new_df["code"].isin(new_st_stock['code'])]
         new_df.to_csv(path, mode='w', index=False, header=True, sep=',')
-        return new_df.to_string()  
+        print(new_df)
+        return new_df 
 
 if __name__ == '__main__':
     stock_code()

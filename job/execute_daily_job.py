@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-
 import time
 import datetime
 import logging
@@ -10,10 +9,12 @@ import sys
 from flask import Flask
 
 
+
 cpath_current = os.path.dirname(os.path.dirname(__file__))
 cpath = os.path.abspath(os.path.join(cpath_current))
 print(cpath)
 sys.path.append(cpath)
+from job.save_stock_vol import save_stocks_vol
 from job.get_stock_volume import  batch_tasks_volume, handle_error_tick_volume, handle_vol
 from core.models import db
 from config import config_map
@@ -33,7 +34,7 @@ def main():
         db.init_app(app)
         # batch_tasks_volume()
         # handle_error_tick_volume()
-        handle_vol()
+        save_stocks_vol()
     logging.info("######## 完成任务, 使用时间: %s 秒 #######" % (time.time() - start))
 
 # main函数入口
