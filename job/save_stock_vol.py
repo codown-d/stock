@@ -13,6 +13,7 @@ import pyarrow.parquet as pq
 import matplotlib.pyplot as plt
 
 
+
 cpath_current = os.path.dirname(os.path.dirname(__file__))
 cpath = os.path.abspath(os.path.join(cpath_current))
 print(cpath)
@@ -20,7 +21,7 @@ sys.path.append(cpath)
 
 from core.models import StockTimePrice
 from job.buy_strategy import strategy_macd
-from job.test import drawing_plt
+from job.test import draw_macd
 
 def save_stocks_vol(time=arrow.now().format("YYYY-MM-DD")):
     start_date = datetime(2024, 6, 17,9, 30, 00)
@@ -46,10 +47,18 @@ def read_stocks_vol(time=arrow.now().format("YYYY-MM-DD")):
         for name, group_df in grouped:
             x = group_df["时间"].to_list()
             macd, macdsignal, macdhist = strategy_macd(group_df['收盘'])
-        plt.plot(x, macd*2, )  # 绘制折线图，添加数据点，设置点的大小
-        plt.plot(x, macdsignal, )
-        plt.plot(x, macdhist, )
-        plt.show()
+        # plt.plot(x, macd*2, )  # 绘制折线图，添加数据点，设置点的大小
+        # plt.plot(x, macdsignal, )
+        # plt.plot(x, macdhist, )
+        # plt.show()
+        draw_macd(df_raw=df_raw,
+              dif=macdsignal,
+              dea=macdhist,
+              red_bar=red_bar,
+              green_bar=green_bar,
+              xtick_period=25,
+              title=u'招商银行 MACD')
+        #https://www.jianshu.com/p/6e24af39b7e6
         return df
     except Exception as e:
         logging.error(f"fetch_stocks处理异常：{e}")
