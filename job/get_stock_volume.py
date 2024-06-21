@@ -11,12 +11,10 @@ cpath_current = os.path.dirname(os.path.dirname(__file__))
 cpath = os.path.abspath(os.path.join(cpath_current))
 sys.path.append(cpath)
 
-
-from indicator import MACD
 import crawling.stock_dfcf as dfcf
 import crawling.stock_code as stock
 def batch_tasks_volume():
-    time='2024-06-14'
+    time='2024-06-20'
     try:
         path =  f'{cpath}/stock_date/stock_vol/{time}.parquet'
         temp_df= stock_tick_volume(time)

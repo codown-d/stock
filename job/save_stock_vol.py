@@ -10,6 +10,8 @@ import arrow
 import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
+import matplotlib.pyplot as plt
+
 
 cpath_current = os.path.dirname(os.path.dirname(__file__))
 cpath = os.path.abspath(os.path.join(cpath_current))
@@ -17,6 +19,8 @@ print(cpath)
 sys.path.append(cpath)
 
 from core.models import StockTimePrice
+from job.buy_strategy import strategy_macd
+from job.test import drawing_plt
 
 def save_stocks_vol(time=arrow.now().format("YYYY-MM-DD")):
     start_date = datetime(2024, 6, 17,9, 30, 00)
@@ -34,10 +38,18 @@ def save_stocks_vol(time=arrow.now().format("YYYY-MM-DD")):
         logging.error(f"fetch_stocks处理异常：{e}")
     return None
 def read_stocks_vol(time=arrow.now().format("YYYY-MM-DD")):
-    path =  f'{cpath}/stock_date/stock_vol/2024-06-19.parquet'
+    path =  f'{cpath}/stock_date/stock_vol/2024-06-20.parquet'
     try:
         df = pd.read_parquet(path)
-        print(df)
+        df = df[(df["代码"] == '301215')]
+        grouped = df.groupby(by=["代码"])
+        for name, group_df in grouped:
+            x = group_df["时间"].to_list()
+            macd, macdsignal, macdhist = strategy_macd(group_df['收盘'])
+        plt.plot(x, macd*2, )  # 绘制折线图，添加数据点，设置点的大小
+        plt.plot(x, macdsignal, )
+        plt.plot(x, macdhist, )
+        plt.show()
         return df
     except Exception as e:
         logging.error(f"fetch_stocks处理异常：{e}")
