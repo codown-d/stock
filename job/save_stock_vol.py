@@ -61,7 +61,7 @@ def read_stocks_vol(time=arrow.now().format("YYYY-MM-DD")):
         plt.plot(x, macd,color='#141414',label='diff')  # 绘制折线图，添加数据点，设置点的大小
         plt.plot(x, macdsignal,color='#d90d44',label='eda' )
         # plt.plot(x, macdhist*2,color='#3dba61',label='macd' )
-        plt.bar(range(len(x)),macdhist*10,color='#3dba61')
+        plt.bar(range(len(x)),macdhist*2,color='#3dba61')
         plt.legend()
         plt.show()
         # draw_macd(df_raw=df_raw,
@@ -77,4 +77,4 @@ def read_stocks_vol(time=arrow.now().format("YYYY-MM-DD")):
         logging.error(f"read_stocks_vol处理异常：{e}")
     return None
 if __name__ == '__main__':
-    read_stocks_vol('2024-06-20')
+    read_stocks_vol('2024-06-24')
