@@ -14,6 +14,8 @@ import matplotlib.pyplot as plt
 
 
 
+
+
 cpath_current = os.path.dirname(os.path.dirname(__file__))
 cpath = os.path.abspath(os.path.join(cpath_current))
 print(cpath)
@@ -22,6 +24,8 @@ sys.path.append(cpath)
 from core.models import StockTimePrice
 from job.buy_strategy import strategy_macd
 from job.test import draw_macd
+from indicator import talib_MACD
+from crawling.trading_calendar import get_pre_trade_date
 
 def save_stocks_vol(time=arrow.now().format("YYYY-MM-DD")):
     start_date = datetime(2024, 6, 17,9, 30, 00)
@@ -39,29 +43,38 @@ def save_stocks_vol(time=arrow.now().format("YYYY-MM-DD")):
         logging.error(f"fetch_stocks处理异常：{e}")
     return None
 def read_stocks_vol(time=arrow.now().format("YYYY-MM-DD")):
-    path =  f'{cpath}/stock_date/stock_vol/2024-06-20.parquet'
+    pre_path =  f'{cpath}/stock_date/stock_vol/{get_pre_trade_date(time,pre=1)}.parquet'
+    path =  f'{cpath}/stock_date/stock_vol/{time}.parquet'
     try:
+        pre_df = pd.read_parquet(pre_path)
         df = pd.read_parquet(path)
-        df = df[(df["代码"] == '301215')]
-        grouped = df.groupby(by=["代码"])
+        new_df = pd.concat([pre_df,df],axis=0)
+        new_df = new_df[(new_df["代码"] == '301215')]
+        grouped = new_df.groupby(by=["代码"]) 
+        print(len(grouped))
         for name, group_df in grouped:
             x = group_df["时间"].to_list()
-            macd, macdsignal, macdhist = strategy_macd(group_df['收盘'])
-        # plt.plot(x, macd*2, )  # 绘制折线图，添加数据点，设置点的大小
-        # plt.plot(x, macdsignal, )
-        # plt.plot(x, macdhist, )
-        # plt.show()
-        draw_macd(df_raw=df_raw,
-              dif=macdsignal,
-              dea=macdhist,
-              red_bar=red_bar,
-              green_bar=green_bar,
-              xtick_period=25,
-              title=u'招商银行 MACD')
+            group_df=group_df.set_index('时间')
+            macd, macdsignal, macdhist = talib_MACD(group_df['收盘'])
+        # print(macd,macdsignal,macdhist)
+        print(x)
+        plt.plot(x, macd,color='#141414',label='diff')  # 绘制折线图，添加数据点，设置点的大小
+        plt.plot(x, macdsignal,color='#d90d44',label='eda' )
+        # plt.plot(x, macdhist*2,color='#3dba61',label='macd' )
+        plt.bar(range(len(x)),macdhist*10,color='#3dba61')
+        plt.legend()
+        plt.show()
+        # draw_macd(df_raw=df_raw,
+        #       dif=macdsignal,
+        #       dea=macdhist,
+        #       red_bar=red_bar,
+        #       green_bar=green_bar,
+        #       xtick_period=25,
+        #       title=u'招商银行 MACD')
         #https://www.jianshu.com/p/6e24af39b7e6
         return df
     except Exception as e:
-        logging.error(f"fetch_stocks处理异常：{e}")
+        logging.error(f"read_stocks_vol处理异常：{e}")
     return None
 if __name__ == '__main__':
-    read_stocks_vol()
+    read_stocks_vol('2024-06-20')

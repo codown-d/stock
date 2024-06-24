@@ -5,7 +5,7 @@ def talib_MACDEXT(df_vol_data):
  
    return (macdDIFF, macdDEA, macd)
 
-def talib_MACD(df_close_data, fastperiod=12, slowperiod=26):
+def talib_MACD(df_close_data, fastperiod=10, slowperiod=22):
     """
         talib官方默认参数 fastperiod=12, slowperiod=26,signalperiod=9
         参数:
@@ -20,5 +20,5 @@ def talib_MACD(df_close_data, fastperiod=12, slowperiod=26):
     # macd, macdsignal, macdhist = getattr(talib, "MACD")(
     #     df_close_data, fastperiod=fastperiod, slowperiod=slowperiod, signalperiod=9)
     
-    macd, macdsignal, macdhist =talib.MACD(df_close_data, fastperiod=fastperiod, slowperiod=slowperiod, signalperiod=9)
+    macd, macdsignal, macdhist =talib.MACD(df_close_data, fastperiod=fastperiod, slowperiod=slowperiod, signalperiod=7)
     return macd, macdsignal, macdhist
