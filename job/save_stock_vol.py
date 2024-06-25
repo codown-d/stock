@@ -51,19 +51,23 @@ def read_stocks_vol(time=arrow.now().format("YYYY-MM-DD")):
         new_df = pd.concat([pre_df,df],axis=0)
         new_df = new_df[(new_df["代码"] == '301215')]
         grouped = new_df.groupby(by=["代码"]) 
-        print(len(grouped))
-        for name, group_df in grouped:
-            x = group_df["时间"].to_list()
+        for name, group_df in grouped:    
+            group_df = group_df.iloc[-(240+22+7):] 
             group_df=group_df.set_index('时间')
-            macd, macdsignal, macdhist = talib_MACD(group_df['收盘'])
-        # print(macd,macdsignal,macdhist)
-        print(x)
-        plt.plot(x, macd,color='#141414',label='diff')  # 绘制折线图，添加数据点，设置点的大小
-        plt.plot(x, macdsignal,color='#d90d44',label='eda' )
-        # plt.plot(x, macdhist*2,color='#3dba61',label='macd' )
-        plt.bar(range(len(x)),macdhist*2,color='#3dba61')
-        plt.legend()
-        plt.show()
+            macd_df = talib_MACD(group_df['收盘'])
+            macd_df = macd_df.dropna(axis=0,how='any')
+            print(name,macd_df.to_string())
+            macd_df.plot.line()
+            plt.show()
+            # print(name,macdsignal.to_string())
+            # print(name,macdhist.to_string())
+        
+        # plt.plot(x, macd,color='#141414',label='diff')  # 绘制折线图，添加数据点，设置点的大小
+        # plt.plot(x, macdsignal,color='#d90d44',label='eda' )
+        # # plt.plot(x, macdhist*2,color='#3dba61',label='macd' )
+        # plt.bar(range(len(x)),macdhist*2,color='#3dba61')
+        # plt.legend()
+        # plt.show()
         # draw_macd(df_raw=df_raw,
         #       dif=macdsignal,
         #       dea=macdhist,

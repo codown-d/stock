@@ -1,3 +1,4 @@
+import pandas as pd
 import talib
  
 def talib_MACDEXT(df_vol_data):
@@ -21,4 +22,9 @@ def talib_MACD(df_close_data, fastperiod=10, slowperiod=22):
     #     df_close_data, fastperiod=fastperiod, slowperiod=slowperiod, signalperiod=9)
     
     macd, macdsignal, macdhist =talib.MACD(df_close_data, fastperiod=fastperiod, slowperiod=slowperiod, signalperiod=7)
-    return macd, macdsignal, macdhist
+    macd_df = pd.DataFrame({
+        "macd": macd,
+        "macdsignal": macdsignal,
+        "macdhist": macdhist
+    })
+    return macd_df
