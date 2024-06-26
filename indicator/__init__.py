@@ -25,6 +25,6 @@ def talib_MACD(df_close_data, fastperiod=10, slowperiod=22):
     macd_df = pd.DataFrame({
         "macd": macd,
         "macdsignal": macdsignal,
-        "macdhist": macdhist
+        "macdhist": macdhist*2
     })
     return macd_df

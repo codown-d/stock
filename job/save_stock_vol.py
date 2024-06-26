@@ -13,9 +13,6 @@ import pyarrow.parquet as pq
 import matplotlib.pyplot as plt
 
 
-
-
-
 cpath_current = os.path.dirname(os.path.dirname(__file__))
 cpath = os.path.abspath(os.path.join(cpath_current))
 print(cpath)
@@ -52,8 +49,9 @@ def read_stocks_vol(time=arrow.now().format("YYYY-MM-DD")):
         new_df = new_df[(new_df["代码"] == '301215')]
         grouped = new_df.groupby(by=["代码"]) 
         for name, group_df in grouped:    
-            group_df = group_df.iloc[-(240+22+7):] 
+            group_df = group_df.iloc[-(240+22+6):] 
             group_df=group_df.set_index('时间')
+            print(group_df)
             macd_df = talib_MACD(group_df['收盘'])
             macd_df = macd_df.dropna(axis=0,how='any')
             print(name,macd_df.to_string())
@@ -81,4 +79,4 @@ def read_stocks_vol(time=arrow.now().format("YYYY-MM-DD")):
         logging.error(f"read_stocks_vol处理异常：{e}")
     return None
 if __name__ == '__main__':
-    read_stocks_vol('2024-06-24')
+    read_stocks_vol('2024-06-26')
