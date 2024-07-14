@@ -14,7 +14,7 @@ sys.path.append(cpath)
 import crawling.stock_dfcf as dfcf
 import crawling.stock_code as stock
 def batch_tasks_volume():
-    time='2024-06-21'
+    time='2024-07-12'
     try:
         path =  f'{cpath}/stock_date/stock_vol/{time}.parquet'
         temp_df= stock_tick_volume(time)
