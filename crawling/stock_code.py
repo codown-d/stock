@@ -13,7 +13,8 @@ import pandas as pd
 from core.constants import ST_STOCK_CODE
 # 更新股东信息
 def stock_code():
-    time = arrow.now().format("YYYYMMDD")
+    # time = arrow.now().format("YYYYMMDD")
+    time = '2024-10-10'
     path = f'{cpath}/stock_date/{time}_stock_code.csv'
     try:
         csvframe = pd.read_csv(path,dtype={'code': str,})
