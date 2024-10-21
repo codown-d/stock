@@ -138,6 +138,9 @@ def stock_fenshi_detail(code) -> pd.DataFrame:
 def stock_history_fenshi_detail(symbol,start_date,end_date) -> pd.DataFrame:
     temp_df = ak.stock_zh_a_hist_min_em(symbol=symbol, start_date=start_date, end_date=end_date, period="1", adjust="")
     return temp_df
+def stock_history_fenshi_detail_xinlang(symbol) -> pd.DataFrame:
+    temp_df = ak.stock_zh_a_minute(symbol=symbol,  period='1', adjust="qfq")
+    return temp_df
 
 if __name__ == '__main__':
     stock_history_fenshi_detail('603650',start_date="2024-06-04 09:30:00", end_date="2024-06-04 15:00:00")

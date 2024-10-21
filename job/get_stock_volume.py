@@ -53,9 +53,13 @@ def fetch_stocks(code,time=arrow.now().format("YYYY-MM-DD")):
             err_code_df =  pd.read_csv(err_coor_path,dtype={'error_code': str,})
             err_code_df.loc[len(err_code_df.index)] = [code]
             err_code_df.to_csv(err_coor_path, mode='w', index=False, header=True, sep=',')
+
         except Exception as e:
             df = pd.DataFrame([code],columns=['error_code'])
             df.to_csv(err_coor_path, mode='w', index=False, header=True, sep=',')
-        return {'data':None,'code':code}
+        return {'data':pd.DataFrame(),'code':code}
 if __name__ == '__main__':
     batch_tasks_volume()
+    
+    # new_data = fetch_stocks('600841','2024-07-22')  
+    # print(new_data)
