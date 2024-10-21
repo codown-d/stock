@@ -9,4 +9,3 @@ migrations
 migrations/__pycache__/*
 migrations/**
 stock_date
-stock_date/**
