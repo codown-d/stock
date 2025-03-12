@@ -14,7 +14,7 @@ sys.path.append(cpath)
 import crawling.stock_dfcf as dfcf
 import crawling.stock_code as stock
 def batch_tasks_volume():
-    time='2025-02-17'
+    time='2025-03-05'
     try:
         path =  f'{cpath}/stock_date/stock_vol/{time}.parquet'
         temp_df= stock_tick_volume(time)
@@ -59,9 +59,9 @@ def fetch_stocks(code,time=arrow.now().format("YYYY-MM-DD")):
             df.to_csv(err_coor_path, mode='w', index=False, header=True, sep=',')
         return {'data':pd.DataFrame(),'code':code}
 if __name__ == '__main__':
-    # batch_tasks_volume()
+    batch_tasks_volume()
     
     # new_data = fetch_stocks('600841','2024-07-22')  
     # print(new_data)
-    df = pd.read_parquet(f'{cpath}/stock_date/stock_vol/2025-02-17.parquet')
-    print(df)
+    # df = pd.read_parquet(f'{cpath}/stock_date/stock_vol/2025-02-17.parquet')
+    # print(df)

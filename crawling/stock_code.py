@@ -14,7 +14,7 @@ from core.constants import ST_STOCK_CODE
 # 更新股东信息
 def stock_code():
     # time = arrow.now().format("YYYYMMDD")
-    time = '20250217'
+    time = '20250305'
     path = f'{cpath}/stock_date/{time}_stock_code.csv'
     try:
         csvframe = pd.read_csv(path,dtype={'code': str,})
